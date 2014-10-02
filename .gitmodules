@@ -1,3 +1,6 @@
 [submodule "template"]
 	path = template
 	url = git@github.com:swank-rats/docs-template.git
+[submodule "theme"]
+	path = theme
+	url = git@github.com:swank-rats/docs-template.git
