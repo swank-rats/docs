@@ -14,8 +14,10 @@
 <nav id="TOC">
 <ul>
 <li><a href="#swank-rats">Swank-Rats</a><ul>
-<li><a href="#target">Target</a></li>
-<li><a href="#idea">Idea</a></li>
+<li><a href="#game-idea">Game Idea</a></li>
+<li><a href="#section"></a></li>
+<li><a href="#architecture">Architecture</a></li>
+<li><a href="#communication">Communication</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -27,10 +29,50 @@
 <section id="content" role="content">
 <h1 id="swank-rats">Swank-Rats</h1>
 <p>Semester Project for course &quot;S1 - Kopplung und Integration von heterogenen Systemen&quot;.</p>
-<h2 id="target">Target</h2>
-<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-<h2 id="idea">Idea</h2>
-<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+<h2 id="game-idea">Game Idea</h2>
+<p>Swank Rat is a rat fighter game. Two rats are trying to shoot each other with cheese. The rats are represented by robots which are controlled by two players. With a Camera over the Game-World can the software &quot;see&quot; where the rats are. In addition, the obstacles are detected over this camera. This obstacles are straight walls (e.g. wood slates with a red with a red mark). The Rats are able to throw pieces of cheese after the opponent. The walls serve as a limitation for the cheese-bullets.</p>
+<p>To control the robots the live video of the world (overlaid with video of the cheese-bullets) will be displayed in a HTML UI in the browser. With buttons (and keyboard shortcuts) can the player control the real robot.</p>
+<p>If a robot is hit (one or more) the game is over.</p>
+<h2 id="section"></h2>
+<h2 id="architecture">Architecture</h2>
+<p>TODO overview image</p>
+<h3 id="hardware">Hardware</h3>
+<ul>
+<li>2 x &quot;Rat-Robot&quot; with WLAN Dongles to communicate with the server</li>
+<li>1 x Webcamera (for the detection of position and world)</li>
+<li>1 x Server (Notebook or PC for image processing and game logic)</li>
+<li>2 x Clients (Notebooks with modern Browsers)</li>
+</ul>
+<h3 id="server-software">Server-Software</h3>
+<ul>
+<li>Server Application (Java)
+<ul>
+<li>Image processing</li>
+<li>Position detection</li>
+<li>Overlay webcam video with cheese-bullets</li>
+<li>Stream video for client</li>
+</ul></li>
+<li>NodeJS Server
+<ul>
+<li>Robot control</li>
+<li>Server UI (HTML)</li>
+<li>User management</li>
+</ul></li>
+</ul>
+<h3 id="client">Client</h3>
+<ul>
+<li>Browser Application
+<ul>
+<li>HTML5</li>
+<li>Presentation of game stream</li>
+<li>Javascript with Websockets</li>
+<li>Buttons to control robot</li>
+<li>Login</li>
+<li>...</li>
+</ul></li>
+</ul>
+<h2 id="communication">Communication</h2>
+<p>TODO</p>
 </section>
 </div>
 </body>
