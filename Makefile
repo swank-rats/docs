@@ -1,4 +1,4 @@
-FILES=index.md
+FILES=index.md intro/01_idea.md intro/02_architecture.md intro/03_communication.md
 OUTPUT=index
 TEMPLATE_DIR=theme
 CSS_DIR=theme/css
