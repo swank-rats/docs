@@ -11,8 +11,5 @@ author:
   email: johannes.wachter@students.fhv.at
 - name: Michael Zangerle
   email: michael.zangerle@students.fhv.at
+abstract: 'Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.'
 ---
-
-# Swank-Rats
-
-Semester Project for course "S1 - Kopplung und Integration von heterogenen Systemen".

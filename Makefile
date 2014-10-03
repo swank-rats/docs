@@ -7,10 +7,11 @@ html:
 	pandoc -s $(FILES) -o $(OUTPUT).html --template $(TEMPLATE_DIR)/html.template --css $(CSS_DIR)/kultiad.css --self-contained --toc --toc-depth 2
 
 pdf:
-	pandoc $(FILES) -o $(OUTPUT).pdf
+	pandoc $(FILES) -o $(OUTPUT).pdf --template $(TEMPLATE_DIR)/latex.template --chapters --toc --toc-depth 2
 
 gh-pages:
 	make html
+	make pdf
 	git commit -am "build html"
 	git push origin master
 	git checkout gh-pages

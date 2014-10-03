@@ -1,3 +1,5 @@
+# Introduction
+
 ## Game Idea
 
 Swank Rat is a rat fighter game. Two rats are trying to shoot each other with cheese. 
@@ -12,5 +14,3 @@ will be displayed in a HTML UI in the browser. With buttons (and keyboard shortc
 the player control the real robot.
  
 If a robot is hit (one or more) the game is over.
-
-## 
