@@ -1,6 +1,6 @@
 ## Architecture
 
-TODO overview image
+![alt tag](https://github.com/swank-rats/docs/master/images/architecture_overview.png)
 
 ### Hardware
 
