@@ -1,6 +1,6 @@
 ## Architecture
 
-![alt tag](images/architecture_overview.png)
+![Architecture of Swank-Rats](images/architecture_overview.png)
 
 ### Hardware
 
