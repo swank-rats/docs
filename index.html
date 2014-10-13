@@ -130,6 +130,37 @@
 <p>The following messages can be sent: - Messages by image-processing server to the NodeJS server - If a collision was detected (see above which cases exist) - If a shot was made to notify if a robot was hit or not - Messages by NodeJS server to image-processing server - If a shot was make by a player - If game has stopped - If game has started - If game has paused (e.g. connection problems) - Info about which player has which robot</p>
 <h3 id="video-quality-and-resolution">Video quality and resolution</h3>
 <h2 id="architecture-1">Architecture</h2>
-<p>TODO Architecure diagram</p>
+<p>TODO Architecure diagram #Requirement analysis for client and server</p>
+<p>We defined a platform independent implementation as a general requirement for the client and the game-server. Furthermore we wanted to keep the possibility to play our game also via a tablet or even a smartphone and to keep it also extensible. Last but not least we wanted to use new, state of the art web-technologies for the sake of the web and for our continuing education.</p>
+<h2 id="specific-requirements-for-the-client">Specific requirements for the client:</h2>
+<ul>
+<li>clean and simple user interface</li>
+<li>the user interface should be responsive by default</li>
+<li>a login / ranking page should be visible for logged in users</li>
+<li>a welcome / introduction / registration page should be visible for all users</li>
+<li>a permanent connection to the server for fast and efficient transfer of game related commands should exist</li>
+<li>the client should be able to display the game universe with it's players and their interactions via a stream</li>
+</ul>
+<h2 id="specific-requirements-for-the-server">Specific requirements for the server:</h2>
+<ul>
+<li>the server should be able to communicate in an easy/efficient/fast way with the robots, the image processing unit and also the clients (bidirectional communication)</li>
+<li>the server should be able to communicate with a database to persist game results and also player specific data e.g. the user-/player-name, password</li>
+<li>the server should provide a fast webserver which also supports SSL for basic security</li>
+<li>the server has to provide interfaces for the client to process registrations, logins, page-ranking requests and normal page requests as well as game-specific commands</li>
+<li>the server should be able to communicate with the image processing component (more details <a href="https://github.com/swank-rats/docs/blob/master/image-processing/02_requirements.md#communication-with-nodejs-server">here</a></li>
+<li>FEATURE: game unrelated users with a smartphone should able to watch the current game on their smartphones. This means that these users should film the game from defined positions with their smartphones and another image will be used as overlay to display player interactions and more</li>
+</ul>
+<h1 id="used-technologies">Used technologies</h1>
+<p>The technologies we used for this project for the client and the game-server is the mean stack.</p>
+<h2 id="mean-stack">MEAN-Stack</h2>
+<p>This stack consists of four different software components which work very smooth with each other. These components are the MongoDB which is a database, the and Express the Angular.js Javascript frameworks and last but not least the Node.js environment.</p>
+<h3 id="mongodb">MongoDB</h3>
+<p>MongoDB (from &quot;humongous&quot;) is an open-source document database, and the leading NoSQL database. It's main key features are document-oriented storage, full index support, replication and high availability, auto sharding, map/reduce support, in place updates, and a lot more. You can find more information about the database on their <a href="http://www.mongodb.org/">website</a>.</p>
+<h3 id="express">Express</h3>
+<p>Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications without obscuring Node.js features that you know and love. You can find more information about the framework on their <a href="http://expressjs.com/">website</a></p>
+<h3 id="angular.js">Angular.js</h3>
+<p>Angular is an open source framework from Google and helps to make and structure single-page web applications according to the MVC pattern. Angular.js operates entirely on the client side. You can find more information about the framework on their <a href="https://angularjs.org/">website</a></p>
+<h3 id="node.js">Node.js</h3>
+<p>Node.js is an open source, cross-platform runtime environment for Javascript applications. Node.js provides an event-driven, non-blocking I/O model that makes perfect for data-intensive real-time applications. Internally Node.js uses Google V8 Javascript engine which is also used in the Chrome Browsers to execute the applications. A lot of the environment is also written in Javascript and it provides modules for file, socket and HTTP communication which allows it to act as a web server. Popular companies which use Node.js are for example SAP, LinkedIn, Microsoft, Yahoo, Walmart and PayPal. You can find more information about the framework on their <a href="http://nodejs.org/">website</a></p>
     </body>
 </html>
