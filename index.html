@@ -40,6 +40,12 @@
 <li><a href="#architecture">Architecture</a></li>
 <li><a href="#communication">Communication</a></li>
 </ul></li>
+<li><a href="#image-processing">Image-Processing</a><ul>
+<li><a href="#components">Components</a></li>
+<li><a href="#why-websockets">Why WebSockets</a></li>
+<li><a href="#why-opencv-and-c">Why OpenCV and C++</a></li>
+<li><a href="#architecture-1">Architecture</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -93,6 +99,36 @@
 </ul>
 <h2 id="communication">Communication</h2>
 <p>TODO</p>
+<h1 id="image-processing">Image-Processing</h1>
+<h2 id="components">Components</h2>
+<p>For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a web cam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall/robot).</p>
+<p>For the communication between the NodeJS server and the image-processing server we decided to use WebSockets. To fulfil this purpose we use the library XXXXX (TODO!).</p>
+<p>For compiling our source code we use the MinGW GCC C++ 4.8.1-4 compiler. This offers us the full support for C++11, including std:thread (this is missing in other Windows-versions of GCC). As IDE we use Eclipse Kepler SR 1.</p>
+<h2 id="why-websockets">Why WebSockets</h2>
+<h2 id="why-opencv-and-c">Why OpenCV and C++</h2>
+<p>We did some research and searched for possible free image processing libraries. We decided to use OpenCV, because it offers the biggest amount of functionality compared to the other libraries, which were available for free. We do not want to take the risk to use a library which offers less functionality and finally we may be faced with the problem, that a functionality that we need is missing.</p>
+<p>First we thought about using Java together with the ported OpenCV version, but then we were a little bit afraid about possible performance issues, instability and the fact, that you have to use native method calls in your Java code to get access to the OpenCV functionality since it is written for C/C++.</p>
+<p>Another possibility would have been C#.NET together with EmguCV (http://www.emgu.com/wiki/index.php/Main_Page). But EmguCV is also just a wrapper to the OpenCV library.</p>
+<p>So we decided to use OpenCV in connection with C++. It is a little bit risky because we do not have much experience in using C++ and it is the first time we use it in a project. So we are looking forward to learn a lot of new things. ## Requirements</p>
+<h3 id="needed-functionality">Needed functionality</h3>
+<ul>
+<li>Providing video stream for clients</li>
+<li>Collision detection
+<ul>
+<li>Robot/wall collision</li>
+<li>Shot/robot collision</li>
+<li>Robot/robot collision</li>
+</ul></li>
+<li>Position detection of walls/robots</li>
+<li>Communication with NodeJS server</li>
+<li>Simulation of shoots in video stream</li>
+</ul>
+<h3 id="communication-with-nodejs-server">Communication with NodeJS server</h3>
+<p>It is necessary that the NodeJS server and the image-processing can talk with eachother. The communication is needed, because the NodeJS server has not enough knowledge to make all the game logic decision by its own.</p>
+<p>The following messages can be sent: - Messages by image-processing server to the NodeJS server - If a collision was detected (see above which cases exist) - If a shot was made to notify if a robot was hit or not - Messages by NodeJS server to image-processing server - If a shot was make by a player - If game has stopped - If game has started - If game has paused (e.g. connection problems) - Info about which player has which robot</p>
+<h3 id="video-quality-and-resolution">Video quality and resolution</h3>
+<h2 id="architecture-1">Architecture</h2>
+<p>TODO Architecure diagram</p>
 </section>
 </div>
 </body>
