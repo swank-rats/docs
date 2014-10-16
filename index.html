@@ -201,6 +201,10 @@
 </ol>
 <pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> update
 <span class="kw">apt-get</span> install linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span></code></pre>
+<p>If the linux-header version does not exists search for deb file in http://rcn-ee.net/deb/precise-armhf.</p>
+<p><strong>Example:</strong></p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">wget</span> http://rcn-ee.net/deb/precise-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0precise_armhf.deb
+<span class="kw">dpkg</span> -i linux-headers-3.8.13-bone50_1.0precise_armhf.deb</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Install dependencies</li>
 </ol>
