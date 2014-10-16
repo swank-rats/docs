@@ -71,7 +71,6 @@ wpa_passphrase <ssid> <password> > /etc/wpa.config
 
 ```
 auto wlan0
-allow-hotplug wlan0
 iface wlan0 inet dhcp
-wpa-conf /etc/wpa.config
+    wpa-conf /etc/wpa.config
 ```
