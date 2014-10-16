@@ -18,7 +18,7 @@ Important: Run in __root__
 1. Install Kernel-Sources
 
 ```bash
-aptget update
+apt-get update
 apt-get install linux-headers-$(uname -r)
 ```
 
