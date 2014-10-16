@@ -203,8 +203,8 @@
 <span class="kw">apt-get</span> install linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span></code></pre>
 <p>If the linux-header version does not exists search for deb file in http://rcn-ee.net/deb/precise-armhf.</p>
 <p><strong>Example:</strong></p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">wget</span> http://rcn-ee.net/deb/precise-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0precise_armhf.deb
-<span class="kw">dpkg</span> -i linux-headers-3.8.13-bone50_1.0precise_armhf.deb</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">wget</span> http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
+<span class="kw">dpkg</span> -i linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Install dependencies</li>
 </ol>
@@ -229,7 +229,7 @@
 <ol start="6" style="list-style-type: decimal">
 <li>Install and Configure WPA-Supplicant</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">aptget</span> install wpasupplicant
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install wpasupplicant
 <span class="kw">wpa_passphrase</span> <span class="kw">&lt;</span>ssid<span class="kw">&gt;</span> <span class="kw">&lt;</span>password<span class="kw">&gt;</span> <span class="kw">&gt;</span> /etc/wpa.config</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>Add config to start script: App following to config file <code>/etc/network/interfaces</code></li>
