@@ -27,8 +27,8 @@ If the linux-header version does not exists search for deb file in http://rcn-ee
 __Example:__
 
 ```bash
-wget http://rcn-ee.net/deb/precise-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0precise_armhf.deb
-dpkg -i linux-headers-3.8.13-bone50_1.0precise_armhf.deb
+wget http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
+dpkg -i linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
 ```
 
 2. Install dependencies
@@ -63,7 +63,7 @@ rebot
 6. Install and Configure WPA-Supplicant
 
 ```bash
-aptget install wpasupplicant
+apt-get install wpasupplicant
 wpa_passphrase <ssid> <password> > /etc/wpa.config
 ```
 
