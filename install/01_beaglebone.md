@@ -57,7 +57,7 @@ ifconfig
 5. Reboot
 
 ```bash
-rebot
+reboot
 ```
 
 6. Install and Configure WPA-Supplicant
