@@ -22,6 +22,15 @@ apt-get update
 apt-get install linux-headers-$(uname -r)
 ```
 
+If the linux-header version does not exists search for deb file in http://rcn-ee.net/deb/precise-armhf.
+
+__Example:__
+
+```bash
+wget http://rcn-ee.net/deb/precise-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0precise_armhf.deb
+dpkg -i linux-headers-3.8.13-bone50_1.0precise_armhf.deb
+```
+
 2. Install dependencies
 
 ```bash
