@@ -33,7 +33,7 @@ Therefore the system need following requirements
 - 1.5 GB 
 - USB 2.0 required
 
-The maximal resulustion for motion video is 1280 X 720 pixel for still image 1280 X 800. The webcam has a maxiaml image rate up to 30 frames per second and a 68.5° diagonal field of view.
+The maximal resulustion for motion video is 1280 X 720 pixel for still image 1280 X 800. The webcam has a maximal image rate up to 30 frames per second and a 68.5 degree diagonal field of view.
 The other image features of the webcam are
  Digital pan, digital tilt, vertical tilt, swivel pan, and 4x digital zoom
 - Fixed focus from 0.3m to 1.5m

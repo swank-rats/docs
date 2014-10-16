@@ -103,15 +103,16 @@
 <p>TODO</p>
 <h1 id="image-processing">Image-Processing</h1>
 <h2 id="components">Components</h2>
-<p>For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a web cam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall/robot).</p>
+<p>For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a web cam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).</p>
 <p>For the communication between the NodeJS server and the image-processing server we decided to use WebSockets. To fulfil this purpose we use the library XXXXX (TODO!).</p>
 <p>For compiling our source code we use the MinGW GCC C++ 4.8.1-4 compiler. This offers us the full support for C++11, including std:thread (this is missing in other Windows-versions of GCC). As IDE we use Eclipse Kepler SR 1.</p>
 <h2 id="why-websockets">Why WebSockets</h2>
 <h2 id="why-opencv-and-c">Why OpenCV and C++</h2>
-<p>We did some research and searched for possible free image processing libraries. We decided to use OpenCV, because it offers the biggest amount of functionality compared to the other libraries, which were available for free. We do not want to take the risk to use a library which offers less functionality and finally we may be faced with the problem, that a functionality that we need is missing.</p>
-<p>First we thought about using Java together with the ported OpenCV version, but then we were a little bit afraid about possible performance issues, instability and the fact, that you have to use native method calls in your Java code to get access to the OpenCV functionality since it is written for C/C++.</p>
+<p>We did some research and searched for possible free image processing libraries. We decided to use OpenCV, because it offers the biggest amount of functionality compared to the other libraries which were available for free like SimpleCV, OpenCV for Java, OpenCV for .NET (Emgu CV) or JAI. We do not want to take the risk to use a library which offers less functionality and finally we may be faced with the problem, that a functionality that we need is missing.</p>
+<p>First we thought about using Java together with the ported OpenCV version, but then we were a little bit afraid about possible performance issues, instability and the fact, that you have to use native method calls in your Java code to get access to the OpenCV functionality since it is written for C/C++. Also offers the wrapper for OpenCV under java less functionality then the original OpenCV for C++.</p>
 <p>Another possibility would have been C#.NET together with EmguCV (http://www.emgu.com/wiki/index.php/Main_Page). But EmguCV is also just a wrapper to the OpenCV library.</p>
-<p>So we decided to use OpenCV in connection with C++. It is a little bit risky because we do not have much experience in using C++ and it is the first time we use it in a project. So we are looking forward to learn a lot of new things. ## Requirements</p>
+<p>So we decided to use OpenCV in connection with C++. It is a little bit risky because we do not have much experience in using C++ and it is the first time we use it in a project. So we are looking forward to learn a lot of new things.</p>
+<h2 id="requirements">Requirements</h2>
 <h3 id="needed-functionality">Needed functionality</h3>
 <ul>
 <li>Providing video stream for clients</li>
@@ -120,6 +121,7 @@
 <li>Robot/wall collision</li>
 <li>Shot/robot collision</li>
 <li>Robot/robot collision</li>
+<li>Shot/wall collision</li>
 </ul></li>
 <li>Position detection of walls/robots</li>
 <li>Communication with NodeJS server</li>
@@ -129,6 +131,8 @@
 <p>It is necessary that the NodeJS server and the image-processing can talk with eachother. The communication is needed, because the NodeJS server has not enough knowledge to make all the game logic decision by its own.</p>
 <p>The following messages can be sent: - Messages by image-processing server to the NodeJS server - If a collision was detected (see above which cases exist) - If a shot was made to notify if a robot was hit or not - Messages by NodeJS server to image-processing server - If a shot was make by a player - If game has stopped - If game has started - If game has paused (e.g. connection problems) - Info about which player has which robot</p>
 <h3 id="video-quality-and-resolution">Video quality and resolution</h3>
+<p>For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 720p resolustion for the streaming. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. Therefore the system need following requirements - Intel Dual Core 3.0 GHz or higher - 2 GB of RAM - 1.5 GB - USB 2.0 required</p>
+<p>The maximal resulustion for motion video is 1280 X 720 pixel for still image 1280 X 800. The webcam has a maximal image rate up to 30 frames per second and a 68.5 degree diagonal field of view. The other image features of the webcam are Digital pan, digital tilt, vertical tilt, swivel pan, and 4x digital zoom - Fixed focus from 0.3m to 1.5m - True Color - Automatic image adjustment with manual override - 16:9 widescreen - 24-bit color depth</p>
 <h2 id="architecture-1">Architecture</h2>
 <p>TODO Architecure diagram #Requirement analysis for client and server</p>
 <p>We defined a platform independent implementation as a general requirement for the client and the game-server. Furthermore we wanted to keep the possibility to play our game also via a tablet or even a smartphone and to keep it also extensible. Last but not least we wanted to use new, state of the art web-technologies for the sake of the web and for our continuing education.</p>
