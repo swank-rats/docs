@@ -25,4 +25,4 @@ First we wanted to implement our project with Eclipse CDT in connection with the
 
 We adapted the fix, which is mentioned in the bug report, to our local boost source files and recompiled the library. The result was that Eclipse didn't run the application anymore. Instead it displayed the message "Launch failed. Binary not found.".
 ![Eclipse errors when building project](images/eclipse_boost_error2.png)
-The error log of the IDE did not mention anything helpful about this error. After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and implement against the Win32 API.
+The error log of the IDE did not mention anything helpful about this error. We got the same error with the previous Boost libary (1.55). After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and implement against the Win32 API.
