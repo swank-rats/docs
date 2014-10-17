@@ -7,7 +7,7 @@ In this chapter is described how to install the environment to run the software.
 To run the control-software for the robot you have to install:
  
 * WIFI (TP-Link TL-WN725N)
-* ...
+* Phyton
 
 ### WIFI (TP-Link TL-WN725N)
 
@@ -73,4 +73,18 @@ wpa_passphrase <ssid> <password> > /etc/wpa.config
 auto wlan0
 iface wlan0 inet dhcp
     wpa-conf /etc/wpa.config
+```
+
+### Phyton
+
+```bash
+apt-get install phyton
+cat > hello.py << EOF
+#!/usr/bin/env python3
+# Mein Hallo-Welt-Programm fuer Python 3
+print('Hallo Welt!')
+EOF
+python hello.py
+chmod u+x hello.py
+./hello.py
 ```
