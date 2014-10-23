@@ -203,8 +203,8 @@
 <span class="kw">apt-get</span> install linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span></code></pre>
 <p>If the linux-header version does not exists search for deb file in http://rcn-ee.net/deb/precise-armhf.</p>
 <p><strong>Example:</strong></p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">wget</span> http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
-<span class="kw">dpkg</span> -i linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">wget</span> http://rcn-ee.net/deb/trusty-armhf/v<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span>/linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span>_1.0trusty_armhf.deb
+<span class="kw">dpkg</span> -i linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span>_1.0trusty_armhf.deb</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Install dependencies</li>
 </ol>
@@ -221,7 +221,7 @@
 <ol start="4" style="list-style-type: decimal">
 <li>Check installation</li>
 </ol>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ifconfig</span></code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">iwconfig</span></code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Reboot</li>
 </ol>
@@ -247,5 +247,16 @@ EOF
 python hello.py
 chmod u+x hello.py
 ./hello.py</code></pre>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ol style="list-style-type: decimal">
+<li><p>ERROR: <code>mach/timex.h: No such file or directory</code></p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> usr/src/linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span>/arch/arm/include
+<span class="kw">mkdir</span> mach
+<span class="kw">touch</span> mach/timex.h</code></pre>
+<p>source: https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ</p></li>
+<li><p>WARNING: <code>perl: warning: Setting locale failed.</code></p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> locale-gen de_AT.UTF-8</code></pre>
+<p>source: http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</p></li>
+</ol>
     </body>
 </html>
