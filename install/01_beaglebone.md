@@ -78,7 +78,8 @@ iface wlan0 inet dhcp
 ### Phyton
 
 ```bash
-apt-get install phyton
+apt-get install python
+apt-get install python3
 cat > hello.py << EOF
 #!/usr/bin/env python3
 # Mein Hallo-Welt-Programm fuer Python 3
