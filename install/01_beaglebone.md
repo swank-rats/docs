@@ -27,8 +27,8 @@ If the linux-header version does not exists search for deb file in http://rcn-ee
 __Example:__
 
 ```bash
-wget http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone50/linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
-dpkg -i linux-headers-3.8.13-bone50_1.0wheezy_armhf.deb
+wget http://rcn-ee.net/deb/trusty-armhf/v$(uname -r)/linux-headers-$(uname -r)_1.0trusty_armhf.deb
+dpkg -i linux-headers-$(uname -r)_1.0trusty_armhf.deb
 ```
 
 2. Install dependencies
@@ -51,7 +51,7 @@ insmod 8188eu.ko
 4. Check installation
 
 ```bash
-ifconfig
+iwconfig
 ```
 
 5. Reboot
@@ -88,3 +88,19 @@ python hello.py
 chmod u+x hello.py
 ./hello.py
 ```
+
+### Troubleshooting
+
+1. ERROR: `mach/timex.h: No such file or directory`
+```bash
+cd usr/src/linux-headers-$(uname -r)/arch/arm/include
+mkdir mach
+touch mach/timex.h
+```
+source: https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ
+
+2. WARNING: `perl: warning: Setting locale failed.`
+```bash
+sudo locale-gen de_AT.UTF-8
+```
+source: http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl
