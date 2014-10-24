@@ -1,14 +1,15 @@
 # Get the Bone in the internet
 
 This will tell you how to connect the beaglebone to the internet.
+There are three possibilies how to achieve that goal
 
-## Easy
+## 1. Easy
 
 1. Connect an ethernet cable with your bone and the other end with your router.
 
 2. You're done.
 
-## There is only WIFI or it's not that easy
+## 2. There is only WIFI or It's not that easy
  
 Requirements: 
 Computer which can connect to the WIFI and with a free Ethernet Port
@@ -24,7 +25,7 @@ Ethernet Cable
 
 5. You're done
 	
-## Why should I use another cable?
+## 3. Why should I use another cable?
 
 1. Connect to your bone via SSH
 
