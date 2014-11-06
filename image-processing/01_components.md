@@ -1,14 +1,31 @@
 # Image-Processing
 
 ## Components
-For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a web cam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
+For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
 
-For the communication between the NodeJS server and the image-processing server we decided to use WebSockets. To fulfil this purpose we use the library XXXXX (TODO!).
+For networking, threading and logging we use the functionality provided by the [Boost 1.56 library](http://www.boost.org/).
 
-For compiling our source code we use Microsoft Visual C++ Compiler 18.00.21005.1 for x86 platform. Therefore we also use Visual Studio 2013 as our IDE. During the project we will implement against the Win32 API (e.g. for threading and so on).
+For the communication between the NodeJS server and the image-processing server we decided to use WebSockets. To fulfil this purpose we use the library XXXXX (TODO!), since the Boost ASIO library does not support WebSocket by itself.
+
+For compiling our source code we use Microsoft Visual C++ Compiler 18.00.21005.1 for x86 platform. Therefore we also use Visual Studio 2013 as our IDE. 
 
 ## Why WebSockets
 TODO
+
+-Tried Simple-WebSocket-Server (https://github.com/eidheim/Simple-WebSocket-Server)
+Fehler	2	error C2338: invalid template argument for uniform_int_distribution	g:\visual studio 2013\vc\include\random	2767	1	image-processing
+
+Random is a file from VS2013\VS\include\random
+
+-Tried Websocketpp (https://github.com/zaphoyd/websocketpp)
+C++/Boost.Asio based websocket client/server library
+
+error C2064: term does not evaluate to a function taking 2 arguments	c:\_libs\boost\1.55.0\boost\function\function_template.hpp	153
+Eigentliche Problem liegt in der Datei
+websocketpp\common\functional.hpp 
+Hier sind falsch gesetzte defines
+
+found POCO++ - supports everything that BOOST does and even more -> change from poco to boost
 
 ## Why OpenCV and C++
 We did some research and searched for possible free image processing libraries. We decided to use OpenCV, because it offers the biggest amount of functionality compared to the other libraries which were available for free like SimpleCV, OpenCV for Java, OpenCV for .NET (Emgu CV) or JAI. We do not want to take the risk to use a library which offers less functionality and finally we may be faced with the problem, that a functionality that we need is missing.
@@ -25,4 +42,4 @@ First we wanted to implement our project with Eclipse CDT in connection with the
 
 We adapted the fix, which is mentioned in the bug report, to our local boost source files and recompiled the library. The result was that Eclipse didn't run the application anymore. Instead it displayed the message "Launch failed. Binary not found.".
 ![Eclipse errors when building project](images/eclipse_boost_error2.png)
-The error log of the IDE did not mention anything helpful about this error. We got the same error with the previous Boost libary (1.55). After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and implement against the Win32 API.
+The error log of the IDE did not mention anything helpful about this error. We got the same error with the previous Boost libary (1.55). After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and compiled Boost with the VC++ compiler. 
