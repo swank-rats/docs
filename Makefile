@@ -10,6 +10,7 @@ pdf:
 	pandoc $(FILES) -o $(OUTPUT).pdf --template $(TEMPLATE_DIR)/default.tex --chapters --toc --toc-depth 2
 
 gh-pages:
+	git pull origin master
 	make html
 	make pdf
 	git commit -am "build html"
