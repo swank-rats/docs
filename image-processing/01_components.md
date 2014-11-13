@@ -43,6 +43,6 @@ Then we tried to use [Websocketpp](https://github.com/zaphoyd/websocketpp), whic
 
 	error C2064: term does not evaluate to a function taking 2 arguments	c:\_libs\boost\1.56.0\boost\function\function_template.hpp	153
 	
-We had contact with the developer of this library. First he recommended to use Boost 1.55.0 instead of 1.56.0, but the problem still occurred. Finally we could figure out that the source of the problem was in the file "websocketpp\common\functional.hpp" where some defines were wrong, which caused the error in VC 2013. The developer fixed the problem 2 weeks after we have decided to use Poco.
+We had contact with the developer of this library. First he recommended to use Boost 1.55.0 instead of 1.56.0, but the problem still occurred. Finally we could figure out that the source of the problem was in the file "websocketpp\\common\\functional.hpp" where some defines were wrong, which caused the error in VC 2013. The developer fixed the problem 2 weeks after we have decided to use Poco.
 
 Finally we found [Poco 1.4.7](http://pocoproject.org/), which is a library like BOOST. The big difference is that Poco already contains an API for creating a WebSocket server/client and also a HTTP server/client can be easily implemented. Poco was very easy to compile and get things running with VS2013. So we changed (again) the library from Boost to Poco.
