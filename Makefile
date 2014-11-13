@@ -1,8 +1,10 @@
 html:
 	udoc build
+	cp out/index.html ./
 
 pdf:
 	udoc build -p
+	cp out/index.pdf ./
 
 gh-pages:
 	git pull origin master
