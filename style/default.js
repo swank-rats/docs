@@ -20,6 +20,8 @@ $(document).ready(function() {
 
         $(this).nextUntil('h1', 'h2').each(function() {
             countH2 += 1;
+
+            // $(this).prepend(countH1 + '.' + countH2);
             h2node = nodeData($(this), '<span class="hnum">' + countH1 + "." + countH2 + "</span>", 2);
 
             var h3data = [];
@@ -87,12 +89,15 @@ $(document).ready(function() {
                     $tree.tree('closeNode', node);
                 }
             }
-
-
         });
+    });
 
+    /** images */
 
-
+    $('img').each(function() {
+        var title = $(this).parent().find('.caption').text();
+        
+        $(this).wrap('<a href="' + $(this).attr('src') + '" rel="lightbox" title="' + title + '">');
     });
 
 });
