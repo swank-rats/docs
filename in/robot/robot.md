@@ -17,7 +17,7 @@ The robot hardware is a composition of several parts:
 * [Chasis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
   is powered by two electric motor and two wheels, which provides to corner sharply.
   
-![Chassis example picture](robot/img/chasis)
+![Chassis example picture](robot/img/chassis)
 
 * Engergy supply: For the energy supply we use 8 (TODO ???) batteries which provides directly the power for the motor
   and supply the BeagleBone with 5V, over a [POWER SUPPLY CAPE](http://at.farnell.com/circuitco/power-supply-cape-for-bbb/power-supply-cape-beaglebone-board/dp/2399909). 
