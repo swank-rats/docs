@@ -2,5 +2,6 @@ intro
 game-server
 image-processing
 communication
+robot
 install
 appendix
