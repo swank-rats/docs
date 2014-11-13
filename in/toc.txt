@@ -1,4 +1,5 @@
 intro
+game-server
 image-processing
 install
 appendix

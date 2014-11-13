@@ -1,6 +1,8 @@
 
 # Image-Processing
 
+TODO fancy description for image-processing
+
 ## Components
 For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
 
@@ -22,11 +24,11 @@ So we decided to use OpenCV in connection with C++. It is a little bit risky bec
 ## Why VC++ with VS 2013
 First we wanted to implement our project with Eclipse CDT in connection with the [Boost library](http://www.boost.org/). The reason for us to use Boost was that we were especially interested in the threading and networking functionality, because we have a team member with a Mac and we wanted to offer him opportunity to develop with us. But the current version of the Boost library contains an [already reported bug](https://svn.boost.org/trac/boost/ticket/10296), which causes the build of Boost with MinGW to create corrupt files. This finally leads to an error in Eclipse, when you try to build the project.
 
-![Eclipse errors when building project](images/eclipse_boost_errors.png)
+![Eclipse errors when building project](image-processing/img/eclipse_boost_errors)
 
 We adapted the fix, which is mentioned in the bug report, to our local boost source files and recompiled the library. The result was that Eclipse didn't run the application anymore. Instead it displayed the message "Launch failed. Binary not found.".
 
-![Eclipse errors when building project](images/eclipse_boost_error2.png)
+![Eclipse errors when building project](image-processing/img/eclipse_boost_error2)
 
 The error log of the IDE did not mention anything helpful about this error. We got the same error with the previous Boost libary (1.55). After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and compiled Boost with the VC++ compiler. 
 
@@ -123,27 +125,32 @@ HSV (hue-saturation-value) is the most common cylindrical-coordinate representat
 It rearrange the geometry of RGB in an attempt to be more intuitive and perceptually relevant than the cartesian (cube) representation, 
 by mapping the values into a cylinder loosely inspired by a traditional color wheel. The angle around the central vertical axis corresponds to "hue" and the distance from the axis corresponds to "saturation". 
 Perceived luminance is a notoriously difficult aspect of color to represent in a digital format (see disadvantages section), and this has given rise to two systems attempting to solve this issue:
-Both of these representations are used widely in computer graphics, but both are also criticized for not adequately separating color-making attributes, and for their lack of perceptual uniformity. 
-![HSV model](images/hsv_models.png)
-
+Both of these representations are used widely in computer graphics, but both are also criticized for not adequately separating color-making attributes, and for their lack of perceptual uniformity.
+ 
+![HSV model](image-processing/img/hsv_models)
 
 Below you can see the detection result of our HSV detection. First you see the original image and then our detection result which detect blue forms.
-![HSV detection original image](images/colored_squares.png)
-![HSV detection after detect blue forms](images/hsv_detection1.png)
 
+![HSV detection original image](image-processing/img/colored_squares)
+
+![HSV detection after detect blue forms](image-processing/img/hsv_detection1)
 
 #### contour detection with marker
 We also tried to detect the object via its contours.
 To realize this we went forth and first tried various geometry forms and tried to recognize them by there contours.
 Below you can see the detection result. First you see the original image and then our detection result.
-![Rectangle model](images/colored_squares.png)
-![Rectangle model after detection](images/contour1.png)
+
+![Rectangle model](image-processing/img/colored_squares)
+
+![Rectangle model after detection](image-processing/img/contour1)
 
 In order to bring more security in the contour detection, we have decided to replace the simple contours by nested contours
 This enables us to detect the object more error-free and more stable then with simple contours.
 Below you can see the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
-![Rectangle model nested](images/originalImageNestedDetection.png)
-![Rectangle model nested after detection](images/detectionImageNestedDetection.png)
+
+![Rectangle model nested](image-processing/img/originalImageNestedDetection)
+
+![Rectangle model nested after detection](image-processing/img/detectionImageNestedDetection)
 
 ### Conclusion Lessons learned
 After our tests we decided to use contour detect for our object detect. The reason for this is that the detect
