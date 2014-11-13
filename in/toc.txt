@@ -1,1 +1,4 @@
 intro
+image-processing
+install
+appendix
