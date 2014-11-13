@@ -1,4 +1,4 @@
-FILES=index.md intro/01_idea.md intro/02_architecture.md intro/03_communication.md image-processing/01_components.md image-processing/02_requirements.md image-processing/03_architecture.md game/01_requirements_technologies.md install/01_beaglebone.md apendix/01_appendix.md appendix/02_connect_beaglebone_internet.md
+FILES=index.md intro/01_idea.md intro/02_architecture.md intro/03_communication.md image-processing/01_components.md image-processing/02_requirements.md image-processing/03_architecture.md game/01_requirements_technologies.md install/01_beaglebone.md appendix/01_appendix.md appendix/02_connect_beaglebone_internet.md
 OUTPUT=index
 TEMPLATE_DIR=theme
 CSS_DIR=theme/style
