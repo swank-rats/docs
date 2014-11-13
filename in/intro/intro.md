@@ -1,6 +1,5 @@
 ---
 title:  'Swank-Rats documentation'
-lang: 'de'
 author:
 - name: Thomas Gaida
   email: thomas.gaida@students.fhv.at
