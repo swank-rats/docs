@@ -122,13 +122,13 @@
 <p>For the communication we use Websockets. This TCP-based protocol provides bidirectional connections between all stations of our infrastructure and is well supported by all languages.</p>
 <h3 id="used-libraries">Used Libraries</h3>
 <ul>
-<li>Phyton uses the ws4py (Websocket for Phyton) library: https://ws4py.readthedocs.org/en/latest)</li>
-<li>Node-JS uses the minimalistic implementation of Websocket Protocol ws (websocket): https://github.com/einaros/ws</li>
-<li>C++ uses POCO which provides the Websocket implementation: http://pocoproject.org/documentation/index.html</li>
-<li>JavaScript in Browser uses the nativ Websocket API of the browser</li>
+<li>Phyton uses the <a href="https://ws4py.readthedocs.org/en/latest">ws4py</a> (Websocket for Phyton) library</li>
+<li>Node-JS uses the minimalistic implementation of Websocket Protocol <a href="https://github.com/einaros/ws">ws</a> (websocket)</li>
+<li>C++ uses <a href="http://pocoproject.org/documentation/index.html">POCO</a> which provides the Websocket implementation</li>
+<li>JavaScript in Browser uses the nativ Websocket API (<a href="http://www.html5rocks.com/de/tutorials/websockets/basics/">Tutorial</a>) of the browser</li>
 </ul>
 <h3 id="protocol">Protocol</h3>
-<p>For communication between the stations we use asyncronous json-messages with a specific structure this structure is implemented for Node.JS in a Open Source module (https://github.com/swank-rats/websocket-wrapper). The implementation of this module is part of this project.</p>
+<p>For communication between the stations we use asyncronous json-messages with a specific structure this structure is implemented for Node.JS in a Open Source module <a href="https://github.com/swank-rats/websocket-wrapper">Websocket-Wrapper</a>. The implementation of this module is part of this project.</p>
 <h1 id="image-processing">Image-Processing</h1>
 <h2 id="components">Components</h2>
 <p>For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).</p>
