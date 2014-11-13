@@ -1,5 +1,6 @@
 intro
 game-server
 image-processing
+communication
 install
 appendix
