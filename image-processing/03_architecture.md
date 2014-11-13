@@ -1,2 +1,2 @@
 ## Architecture
-TODO Architecure diagram
+TODO Architecture diagram
