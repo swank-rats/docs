@@ -283,5 +283,39 @@ chmod u+x hello.py
 <pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> locale-gen de_AT.UTF-8</code></pre>
 <p>source: http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</p></li>
 </ol>
+<h1 id="get-the-bone-in-the-internet">Get the Bone in the internet</h1>
+<p>This will tell you how to connect the beaglebone to the internet. There are three possibilies how to achieve that goal</p>
+<h2 id="easy">1. Easy</h2>
+<ol style="list-style-type: decimal">
+<li><p>Connect an ethernet cable with your bone and the other end with your router.</p></li>
+<li><p>You're done.</p></li>
+</ol>
+<h2 id="there-is-only-wifi-or-its-not-that-easy">2. There is only WIFI or It's not that easy</h2>
+<p>Requirements: Computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable</p>
+<ol style="list-style-type: decimal">
+<li><p>On the host computer (the computer whose Internet connection you plan to share) open Network Connections by clicking the Start button Picture of the Start button, and then clicking Control Panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.</p></li>
+<li><p>Select your WIFI and your LAN adapter by holding CTRL and clicking on both.</p></li>
+<li><p>Right click on the second and choose &quot;Bridge Connection&quot;</p></li>
+<li><p>Connect an Ethernet cable with your bone and the other end with your router.</p></li>
+<li><p>You're done</p></li>
+</ol>
+<h2 id="why-should-i-use-another-cable">3. Why should I use another cable?</h2>
+<ol style="list-style-type: decimal">
+<li><p>Connect to your bone via SSH</p></li>
+<li><p>Enter the following:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ifconfig</span> usb0 192.168.7.2
+<span class="kw">route</span> add default gw 192.168.7.1
+<span class="kw">echo</span> <span class="st">&quot;nameserver 8.8.8.8&quot;</span> <span class="kw">&gt;&gt;</span> /etc/resolv.conf</code></pre></li>
+<li><p>On your computer: running Linux:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> su
+<span class="co">#eth0 is my internet facing interface, eth3 is the BeagleBone USB connection</span>
+<span class="kw">ifconfig</span> eth3 192.168.7.1
+<span class="kw">iptables</span> --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+<span class="kw">iptables</span> --append FORWARD --in-interface eth3 -j ACCEPT
+<span class="kw">echo</span> 1 <span class="kw">&gt;</span> /proc/sys/net/ipv4/ip_forward</code></pre>
+<p>running Windows: follow this Tutorial: http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7</p>
+<p>change the IP-Adress of your USB-Networkadapter to the old &quot;172.168.7.1&quot;</p></li>
+<li><p>You're done</p></li>
+</ol>
     </body>
 </html>
