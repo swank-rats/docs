@@ -1,3 +1,4 @@
+
 # Installation
 
 In this chapter is described how to install the environment to run the software. 
@@ -66,6 +67,8 @@ reboot
 apt-get install wpasupplicant
 wpa_passphrase <ssid> <password> > /etc/wpa.config
 ```
+
+
 
 7. Add config to start script: App following to config file `/etc/network/interfaces`
 

@@ -1,2 +1,0 @@
-## Websocket communication
-TODO
