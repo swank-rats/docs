@@ -96,7 +96,7 @@ $(document).ready(function() {
 
     $('img').each(function() {
         var title = $(this).parent().find('.caption').text();
-        
+
         $(this).wrap('<a href="' + $(this).attr('src') + '" rel="lightbox" title="' + title + '">');
     });
 

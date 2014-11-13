@@ -12,9 +12,8 @@ author:
   email: johannes.wachter@students.fhv.at
 - name: Michael Zangerle
   email: michael.zangerle@students.fhv.at
-abstract: 'Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.'
+abstract: '{% include 'abstract.md' %}'
 ---
-
 
 # Introduction
 
