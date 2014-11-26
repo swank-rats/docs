@@ -53,24 +53,25 @@ Finally we found [Poco 1.4.7](http://pocoproject.org/), which is a library like 
 ## Requirements
 
 ### Needed functionality
-- Providing video stream for clients
-- Collision detection
+* Providing video stream for clients
+* Collision detection
 	- Robot/wall collision
 	- Shot/robot collision
 	- Robot/robot collision
 	- Shot/wall collision
-- Position detection of walls/robots
-- Communication with NodeJS server
-- Simulation of shoots in video stream
+* Position detection of walls/robots
+* Communication with NodeJS server
+* Simulation of shoots in video stream
 
 ### Communication with NodeJS server
 It is necessary that the NodeJS server and the image-processing can talk with each other. The communication is needed, because the NodeJS server has not enough knowledge to make all the game logic decision by its own. 
 
 The following messages can be sent:
-- Messages by image-processing server to the NodeJS server
+
+* Messages by image-processing server to the NodeJS server
 	- If a collision was detected (see above which cases exist)
 	- If a shot was made to notify if a robot was hit or not
-- Messages by NodeJS server to image-processing server
+* Messages by NodeJS server to image-processing server
 	- If a shot was make by a player
 	- If game has stopped
 	- If game has started
@@ -80,24 +81,23 @@ The following messages can be sent:
 ### Video quality and resolution
 For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 720p resolution for the streaming. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. 
 Therefore the system need following requirements
-- Intel Dual Core 3.0 GHz or higher
-- 2 GB of RAM 
-- 1.5 GB 
-- USB 2.0 required
+
+* Intel Dual Core 3.0 GHz or higher
+* 2 GB of RAM 
+* 1.5 GB 
+* USB 2.0 required
 
 The maximal resolution for motion video is 1280 X 720 pixel for still image 1280 X 800. The webcam has a maximal image rate up to 30 frames per second and a 68.5 degree diagonal field of view.
 The other image features of the webcam are
- Digital pan, digital tilt, vertical tilt, swivel pan, and 4x digital zoom
-- Fixed focus from 0.3m to 1.5m
-- True Color - Automatic image adjustment with manual override
-- 16:9 widescreen
-- 24-bit color depth
+
+* Digital pan, digital tilt, vertical tilt, swivel pan, and 4x digital zoom
+* Fixed focus from 0.3m to 1.5m
+* True Color - Automatic image adjustment with manual override
+* 16:9 widescreen
+*24-bit color depth
 
 ### Latency
 TODO what we want
-
-### Connection loss 
-TODO what should happen
 
 ## Architecture
 TODO Architecture diagram
@@ -106,9 +106,10 @@ TODO Architecture diagram
 
 ### Lessons learned
 At the beginning of our object detection task we tried different detection solutions out.
--RGB detection
--HSV detection
--contour detection with marker
+
+* RGB detection
+* HSV detection
+* Contour detection with marker
 
 #### RGB Color detection
 First of all we tried to solve the object detection by using a color detection.
@@ -135,7 +136,7 @@ Below you can see the detection result of our HSV detection. First you see the o
 
 ![HSV detection after detect blue forms](image-processing/img/hsv_detection1)
 
-#### contour detection with marker
+#### Contour detection with marker
 We also tried to detect the object via its contours.
 To realize this we went forth and first tried various geometry forms and tried to recognize them by there contours.
 Below you can see the detection result. First you see the original image and then our detection result.
@@ -159,29 +160,46 @@ via contours works faster, more stable and produces less errors during the detec
 ## Websocket communication
 TODO
 
-## Video streaming with HTML client
+### Handling of connection loss
+
+## Video streaming to HTML client
+We decided to use [Motion JPEG (MJPEG)](http://en.wikipedia.org/wiki/Motion_JPEG) since it is very easy to implement, has only less restrictions and can be easily provided over HTTP.
+
+### How does it work
+The protocol is quiet easy to understand. The browser of a client sends a normal HTTP GET request to our server. We need to answer the request with HTTP 200 OK and set the content type to "multipart/x-mixed-replace; boundary=--VIDEOSTREAM". This signals the client to expect several parts delimited by the boundary name "--VIDEOSTREAM". The TCP connection is not closed until the server or the client closes it.
+
+The following image shows the communication between the client and the server. The TCP ACKs were not mentioned. If the packet size is bigger than 1500 bytes, it will be automatically split up into several parts.
+
+![MJPEG communication](image-processing/img/mjpeg_successful_request_response)
+
+Further information about MJPEG can be found here:
+
+* [Wikipedia Motion JPEG](http://en.wikipedia.org/wiki/Motion_JPEG)
+* [MJPEG protocol definition](http://www.damonkohler.com/2010/10/mjpeg-streaming-protocol.html)
+
+### Advantages and Disadvantages
+MJPEG has the big advantages that it is easy to implement, no further libraries were needed and on the client side most of the modern browser like Google Chrome, Mozilla Firefox, Safari or Opera support MJPEG natively. Only Microsoft Internet Explorer does not support it.
+
+The disadvantages were the inefficiency compared to more modern formats like H.264/MPEG-4 AVC as you have to always send the whole image. There is no interframe compression like in other, more modern standards. In our case we were also faced to some performance loss caused by the TCP connection, which we have to use since we talk to a browser.
+
+### Handling of connection loss
 TODO
 
-MJPEG
+### Handling of no available video stream
+If no video stream is available, e.g. if no webcam is connected to the server, we cannot provide a video stream. In such a case all incoming video stream requests will be answered with HTTP/1.1 500 OK. The HTTP status code 500 means an internal server error occurred. Afterwards the connection is closed. 
 
-- http://de.wikipedia.org/wiki/Motion_JPEG
-- http://en.wikipedia.org/wiki/Motion_JPEG#M-JPEG_over_HTTP
-- http://www.damonkohler.com/2010/10/mjpeg-streaming-protocol.html
+### High delays
+At the beginning we were faced with high delay rates of over 70 ms between each frame on the client. It felt like it was even more.
 
-First we had a latency of over 70 ms between each image frame.
+We figured out that there were several reasons for this. Two main problems were directly located in our implementation. We had some unneeded thread synchronization code and we also cloned each frame, which is not necessary since the used data structure ([OpenCV Mat](http://docs.opencv.org/modules/core/doc/basic_structures.html#mat)) provides reference counting. So a copy of a Mat object will not result in copying the whole image. Both instances will share the matrix, which represents the image. 
 
-- Reasons:
-	- image file size too big (up to 70 kb)
-	- unneeded threading synchronization in code
-	- unneeded cloning of the captured images in the code
-	- JPEG image, which was sent over network, quality was 100% (leads to bigger file sizes)
-	- TCP connection overhead (problem of MJPEG).
+Next we figured out that we send about 80 - 90 kb per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 kb by setting the quality to 30 %. 
 
-Solutions:
+TODO add image that compares original stream with stream received by client
 
-- removed unneed sync
-- removed cloning
-- decreased jpeg image quality to 30%
-- therefore the file size shrink to about 10 kbs
-Result:
-- latency is between 20-30 ms
+With this few changes we could decrease the delay to about 20 ms, which is acceptable. 
+
+One big disadvantage, which costs a lot of performance, is the TCP connection overhead. Sadly it is not possible to provide an MJPEG stream via UDP to a browser. 
+
+## Shot simulation
+TODO
