@@ -201,5 +201,48 @@ With this few changes we could decrease the delay to about 20 ms, which is accep
 
 One big disadvantage, which costs a lot of performance, is the TCP connection overhead. Sadly it is not possible to provide an MJPEG stream via UDP to a browser. 
 
-## Shot simulation
-TODO
+## Cheese-throw simulation
+The simulation of throwing a cheese is done by overlay the webcam stream with the images needed for the simulation. One Cheese-throw simulation consists of three parts:
+
+1. Throw-animation: a small explosion in front of the robot shows the start of a throw
+2. Cheese-throwing-animation: the explosion is followed by a cheese, which is animated to simulate a flying cheese beginning at the robot and ending at the calculated end position
+3. Hit-animation: when the flying cheese reaches the end position a explosion is simulated
+
+The following image illustrated all three states.
+
+![Cheese-throw simulation states](image-processing/img/Shot_animation)
+
+A simulation is started if the NodeJS server tells the image processing server that a cheese was thrown by a player. We can then determine the start and end point of a cheese-throw simulation, since we know the position and the viewing direction of the throwing player and by the fact that we are only simulating straightly throws.. The simulation is immediately started with the next occurring webcam frame and therefore also immediately visible for the clients. The decision, if a player or a wall was hit by the cheese is done when the simulation reached the end point. So we can ensure that the other player gets the chance to avoid a collision with the cheese. 
+
+The calculations for a simulation is not that complicated since the start and end point can be interpreted as a right-angled triangle, as the following image illustrates.
+
+![Cheese-throw simulation right-angled trigangle](image-processing/img/Shot_rect)
+
+The simulation takes place along c (hypotenuse). We just have to calculate the length of a and b, shown in the image above by doing the following calculation:
+
+* a = endPointX - startPointX
+* b = endPointY - startPointY
+
+By doing it this way we do not have to consider the direction in detail since the following cases were covered:
+
+* start point x < end point x: next point x > start point x; a > 0
+* start point y < end point y: next point y > start point y; b > 0
+
+* start point x > end point x: next point x < start point x, a < 0
+* start point y > end point y: next point y < start point y, b < 0
+
+* start point x = end point x: next point x = start point x; a = 0
+* start point y = end point y: next point y = start point y; b = 0
+
+This makes sure that all throw directions were possible without any additional magic in the code. The following image illustrates all directions.
+
+![Cheese-throw directions](image-processing/img/Shot_area)
+
+During the simulation the next point, where we show a cheese image, is calculated the following:
+
+* next point x = start point x + a * percentage
+* next point y = start point y + b * percentage
+
+Since we an image in the background we have to round the results to integers, because we cannot consider e.g. half pixels.
+
+As you can see we always add a specific percentage of the length of a to the start point x value and of b to the start point y value. The initial percentage is 3% and is increased by +3% after each simulation step. We use 3% since our tests figured out that 3% offers us the best balance between throwing speed (the image does not move too fast and not too slow) and the gaps between each cheese image. 
