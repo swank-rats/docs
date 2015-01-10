@@ -13,17 +13,74 @@ There are three possibilities how to achieve that goal
 
 ### There is only WIFI or It's not that easy
  
-Requirements: 
-Computer which can connect to the WIFI and with a free Ethernet Port
-Ethernet Cable
+__Requirements:__ Computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable
 
 1. On the host computer (the computer whose Internet connection you plan to share) open Network Connections by clicking the Start button Picture of the Start button, and then clicking Control Panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.	
 2. Select your WIFI and your LAN adapter by holding CTRL and clicking on both.
 3. Right click on the second and choose "Bridge Connection"
 4. Connect an Ethernet cable with your bone and the other end with your router.
 5. You're done
-	
+
+### Eduroam Wlan-Network
+
+__Step 0__
+```bash
+apt-get install wpasupplicant
+```
+
+__Step 1__
+
+* Login as root
+* Create a file `/etc/wpa_supplicant/wpa_supplicant.conf`
+
+*Type the following parameters:
+	```
+	ctrl_interface=/var/run/wpa_supplicant
+	network={
+	   scan_ssid=1
+	   ssid="eduroam"
+	   key_mgmt=WPA-EAP
+	   eap=PEAP
+	   identity="xyz1234@students.fhv.at"
+	   password="XXXXXX"
+	   ca_cert="/etc/ssl/certs/AddTrust_Extern_Root.pem"
+	   phase1="peaplabel=0"
+	   phase2="auth=MSCHAPV2"
+	}
+	```
+
+__Step 2__
+
+Run the command:
+```bash
+wpa_supplicant -i $WLAN -D wext -c /etc/wpa_supplicant/wpa_supplicant.conf&
+``
+
+__Note:__
+* Insted of $WLAN type your interface name.
+* To view the name type iwconfig
+* Wait until the authentication is completed.
+* To receive an IP address type: dhclient
+
+To view if you are connected type:
+```bash
+ifconfig -a
+```
+
+__Or use script from FHV__
+
+Download it from: https://inside.fhv.at/pages/viewpage.action?pageId=54198344
+
+```bash
+chmod +x eduroam-linux-Fachhochschule_Vorarlberg.sh
+./eduroam-linux-Fachhochschule_Vorarlberg.sh
+wpa_supplicant -i wlan0 -D wext -c /root/.eduroam/eduroam.conf&
+```
+
 ### Why should I use another cable?
+
+This method creates a default route on the beaglebone which can cause errors with other networks!
+Try an other solution first!
 
 1. Connect to your bone via SSH
 2. Enter the following:
