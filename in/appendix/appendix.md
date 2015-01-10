@@ -32,44 +32,47 @@ __Step 1__
 
 * Login as root
 * Create a file `/etc/wpa_supplicant/wpa_supplicant.conf`
+* Type the following parameters:
 
-*Type the following parameters:
-	```
-	ctrl_interface=/var/run/wpa_supplicant
-	network={
-	   scan_ssid=1
-	   ssid="eduroam"
-	   key_mgmt=WPA-EAP
-	   eap=PEAP
-	   identity="xyz1234@students.fhv.at"
-	   password="XXXXXX"
-	   ca_cert="/etc/ssl/certs/AddTrust_Extern_Root.pem"
-	   phase1="peaplabel=0"
-	   phase2="auth=MSCHAPV2"
-	}
-	```
+```
+ctrl_interface=/var/run/wpa_supplicant
+network={
+   scan_ssid=1
+   ssid="eduroam"
+   key_mgmt=WPA-EAP
+   eap=PEAP
+   identity="xyz1234@students.fhv.at"
+   password="XXXXXX"
+   ca_cert="/etc/ssl/certs/AddTrust_Extern_Root.pem"
+   phase1="peaplabel=0"
+   phase2="auth=MSCHAPV2"
+}
+```
 
 __Step 2__
 
 Run the command:
+
 ```bash
 wpa_supplicant -i $WLAN -D wext -c /etc/wpa_supplicant/wpa_supplicant.conf&
-``
+```
 
 __Note:__
+
 * Insted of $WLAN type your interface name.
 * To view the name type iwconfig
 * Wait until the authentication is completed.
 * To receive an IP address type: dhclient
 
 To view if you are connected type:
+
 ```bash
 ifconfig -a
 ```
 
 __Or use script from FHV__
 
-Download it from: https://inside.fhv.at/pages/viewpage.action?pageId=54198344
+Download it from: [https://inside.fhv.at/pages/viewpage.action?pageId=54198344](https://inside.fhv.at/pages/viewpage.action?pageId=54198344)
 
 ```bash
 chmod +x eduroam-linux-Fachhochschule_Vorarlberg.sh
