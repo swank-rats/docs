@@ -93,6 +93,25 @@ chmod u+x hello.py
 ./hello.py
 ```
 
+### DMCC Library
+
+Library to control the motor-cape.
+
+```bash
+git clone git://github.com/Exadler/DMCC_Library
+cd DMCC_Library/
+make
+python setupDMCC.py install
+```
+
+### WS4PY
+
+Library to communicate over Websocket.
+
+```bash
+php install ws4py
+```
+
 ### Troubleshooting
 
 1. ERROR: `mach/timex.h: No such file or directory`
@@ -101,7 +120,7 @@ cd usr/src/linux-headers-$(uname -r)/arch/arm/include
 mkdir mach
 touch mach/timex.h
 ```
-source: https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ
+source: [https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ](https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ)
 
 2. WARNING: `perl: warning: Setting locale failed.`
 ```bash
