@@ -104,3 +104,20 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
 	* running Windows: follow this [Tutorial](http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7) change the IP-Adress of your USB-Networkadapter to the old "172.168.7.1"
 4. You're done
+
+## Reflash BBB
+
+* Download Image (that works with WLAN-Dongle): [http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz](http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz).
+* Follow this instructions to copy image to an SD-Card.
+* Insert SD-Card when BBB is unplugged
+* Press following Button and plugin BBB with a Smartphone-Charger (more power than PC)
+
+![Boot-Switch button](appendix/img/flash-button.jpeg)
+
+* Keep holding down the button until you see the bank of 4 LED's light up for a few seconds. You can now release the button.
+* Wait about 25-45min while the BBB will be flashed
+* Once it's done, the bank of 4 LED's to the right of the Ethernet will all stay lit up at the same time. You can then power down your BeagleBone Black and remove SD-Card.
+
+The appropriate linux-headers can be found under: [http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb](http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb)
+
+Detailed information can be found under [https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview](https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview)
