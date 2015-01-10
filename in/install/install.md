@@ -126,4 +126,4 @@ source: [https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83Tmgd
 ```bash
 sudo locale-gen de_AT.UTF-8
 ```
-source: http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl
+source: [http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl](http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl)
