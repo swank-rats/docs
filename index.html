@@ -65,7 +65,7 @@
                 <a href="mailto:michael.zangerle@students.fhv.at">Michael Zangerle</a>
             </h2>
                     </div>
-        <h3 class="date">2015-01-10 (58d3a4f)</h3>
+        <h3 class="date">2015-01-10 (60856af)</h3>
         <h2 class="abstract">Abstract</h2>
         <p class="abstract">Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.</p>
     </header>
@@ -445,13 +445,22 @@ EOF
 python hello.py
 chmod u+x hello.py
 ./hello.py</code></pre>
+<h3 id="dmcc-library">DMCC Library</h3>
+<p>Library to control the motor-cape.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">git</span> clone git://github.com/Exadler/DMCC_Library
+<span class="kw">cd</span> DMCC_Library/
+<span class="kw">make</span>
+<span class="kw">python</span> setupDMCC.py install</code></pre>
+<h3 id="ws4py">WS4PY</h3>
+<p>Library to communicate over Websocket.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">php</span> install ws4py</code></pre>
 <h3 id="troubleshooting">Troubleshooting</h3>
 <ol style="list-style-type: decimal">
 <li><p>ERROR: <code>mach/timex.h: No such file or directory</code></p>
 <pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> usr/src/linux-headers-<span class="ot">$(</span><span class="kw">uname</span> -r<span class="ot">)</span>/arch/arm/include
 <span class="kw">mkdir</span> mach
 <span class="kw">touch</span> mach/timex.h</code></pre>
-<p>source: https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ</p></li>
+<p>source: <a href="https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ" class="uri">https://groups.google.com/forum/#!msg/beagleboard/1IkTdkdUCLg/8th83TmgdPkJ</a></p></li>
 <li><p>WARNING: <code>perl: warning: Setting locale failed.</code></p>
 <pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> locale-gen de_AT.UTF-8</code></pre>
 <p>source: http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</p></li>
