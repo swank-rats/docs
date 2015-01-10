@@ -65,7 +65,7 @@
                 <a href="mailto:michael.zangerle@students.fhv.at">Michael Zangerle</a>
             </h2>
                     </div>
-        <h3 class="date">2014-12-03 (e9537ae)</h3>
+        <h3 class="date">2015-01-10 (a983a75)</h3>
         <h2 class="abstract">Abstract</h2>
         <p class="abstract">Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.</p>
     </header>
@@ -465,7 +465,7 @@ chmod u+x hello.py
 <li>You're done.</li>
 </ol>
 <h3 id="there-is-only-wifi-or-its-not-that-easy">There is only WIFI or It's not that easy</h3>
-<p>Requirements: Computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable</p>
+<p><strong>Requirements:</strong> Computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable</p>
 <ol style="list-style-type: decimal">
 <li>On the host computer (the computer whose Internet connection you plan to share) open Network Connections by clicking the Start button Picture of the Start button, and then clicking Control Panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.</li>
 <li>Select your WIFI and your LAN adapter by holding CTRL and clicking on both.</li>
@@ -473,7 +473,27 @@ chmod u+x hello.py
 <li>Connect an Ethernet cable with your bone and the other end with your router.</li>
 <li>You're done</li>
 </ol>
+<h3 id="eduroam-wlan-network">Eduroam Wlan-Network</h3>
+<p><strong>Step 0</strong></p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> install wpasupplicant</code></pre>
+<p><strong>Step 1</strong></p>
+<ul>
+<li>Login as root</li>
+<li>Create a file <code>/etc/wpa_supplicant/wpa_supplicant.conf</code></li>
+</ul>
+<p>*Type the following parameters: <code>ctrl_interface=/var/run/wpa_supplicant     network={        scan_ssid=1        ssid=&quot;eduroam&quot;        key_mgmt=WPA-EAP        eap=PEAP        identity=&quot;xyz1234@students.fhv.at&quot;        password=&quot;XXXXXX&quot;        ca_cert=&quot;/etc/ssl/certs/AddTrust_Extern_Root.pem&quot;        phase1=&quot;peaplabel=0&quot;        phase2=&quot;auth=MSCHAPV2&quot;     }</code></p>
+<p><strong>Step 2</strong></p>
+<p>Run the command: `<code>bash wpa_supplicant -i $WLAN -D wext -c /etc/wpa_supplicant/wpa_supplicant.conf&amp;</code></p>
+<p><strong>Note:</strong> * Insted of $WLAN type your interface name. * To view the name type iwconfig * Wait until the authentication is completed. * To receive an IP address type: dhclient</p>
+<p>To view if you are connected type:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ifconfig</span> -a</code></pre>
+<p><strong>Or use script from FHV</strong></p>
+<p>Download it from: https://inside.fhv.at/pages/viewpage.action?pageId=54198344</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">chmod</span> +x eduroam-linux-Fachhochschule_Vorarlberg.sh
+<span class="kw">./eduroam-linux-Fachhochschule_Vorarlberg.sh</span>
+<span class="kw">wpa_supplicant</span> -i wlan0 -D wext -c /root/.eduroam/eduroam.conf<span class="kw">&amp;</span></code></pre>
 <h3 id="why-should-i-use-another-cable">Why should I use another cable?</h3>
+<p>This method creates a default route on the beaglebone which can cause errors with other networks! Try an other solution first!</p>
 <ol style="list-style-type: decimal">
 <li>Connect to your bone via SSH</li>
 <li><p>Enter the following:</p>
