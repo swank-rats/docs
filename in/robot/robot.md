@@ -80,9 +80,8 @@ Interquartile Range: 8.75
 Outlier: 87
 ```
 
-The motor has 4 batteries with each 1900mAH available. The entire energy of the batteries has 7600mAH.
-
-The calculation of the maximum working time of about 40h.
+The motor is powered with four batteries (each 1900mAH), the entire energy of the batteries are 7600mAH. The calculation
+with the maximum current of bth motors (172mA) results in a maximum working time of about 40h.
 
 ![calculation of working time](robot/img/working-time.gif)
 
