@@ -23,12 +23,219 @@ The robot hardware is a composition of several parts:
 
 * Engergy supply: For the energy supply we use 8 (TODO ???) batteries which provides directly the power for the motor
   and supply the BeagleBone with 5V, over a [POWER SUPPLY CAPE](http://at.farnell.com/circuitco/power-supply-cape-for-bbb/power-supply-cape-beaglebone-board/dp/2399909). 
-  
+
+* [MotorControllerCape](https://github.com/Exadler/DualMotorControlCape): Expands the board with the ability to control
+  motors over a simple library.
+
 ## Specification
 
 * TODO bbb
 * TODO motor
 
+## Schema
+
+* TODO schema
+
 ## Energy consumption
 
-* TODO energy consumption
+The library DMCC provides a little tool to monitor the current consumption of the linked motors.
+
+This output was produced when the robot drives with 40% which the highest possible level without exceed the current
+limiter of the motor control cape.
+
+```bash
+$ root@beaglebone:~/DMCC_Library# ./getCurrent 0
+Current Motor 1 = 81 (0x51), Motor 2 = 71 (0x47), Voltage = 6322 (0x18b2)
+Current Motor 1 = 64 (0x40), Motor 2 = 70 (0x46), Voltage = 6259 (0x1873)
+Current Motor 1 = 73 (0x49), Motor 2 = 73 (0x49), Voltage = 6277 (0x1885)
+Current Motor 1 = 65 (0x41), Motor 2 = 69 (0x45), Voltage = 6341 (0x18c5)
+Current Motor 1 = 87 (0x57), Motor 2 = 75 (0x4b), Voltage = 6341 (0x18c5)
+Current Motor 1 = 90 (0x5a), Motor 2 = 72 (0x48), Voltage = 6268 (0x187c)
+Current Motor 1 = 85 (0x55), Motor 2 = 72 (0x48), Voltage = 6341 (0x18c5)
+Current Motor 1 = 73 (0x49), Motor 2 = 70 (0x46), Voltage = 6350 (0x18ce)
+Current Motor 1 = 68 (0x44), Motor 2 = 76 (0x4c), Voltage = 6268 (0x187c)
+Current Motor 1 = 85 (0x55), Motor 2 = 70 (0x46), Voltage = 6341 (0x18c5)
+Current Motor 1 = 83 (0x53), Motor 2 = 70 (0x46), Voltage = 6322 (0x18b2)
+Current Motor 1 = 76 (0x4c), Motor 2 = 78 (0x4e), Voltage = 6259 (0x1873)
+Current Motor 1 = 85 (0x55), Motor 2 = 67 (0x43), Voltage = 6295 (0x1897)
+Current Motor 1 = 69 (0x45), Motor 2 = 71 (0x47), Voltage = 6322 (0x18b2)
+Current Motor 1 = 70 (0x46), Motor 2 = 69 (0x45), Voltage = 6240 (0x1860)
+Current Motor 1 = 79 (0x4f), Motor 2 = 67 (0x43), Voltage = 6304 (0x18a0)
+Current Motor 1 = 78 (0x4e), Motor 2 = 70 (0x46), Voltage = 6350 (0x18ce)
+```
+
+This data in a boxplot diagram displays information about the the power consumption of the robot.
+
+![box plot current](robot/img/box-plot-current)
+
+__Statistics:__
+```
+Population size: 36
+Median: 72
+Minimum: 64
+Maximum: 87
+First quartile: 69.25
+Third quartile: 78
+Interquartile Range: 8.75
+Outlier: 87
+```
+
+The motor has 4 batteries with each 1900mAH available. The entire energy of the batteries has 7600mAH.
+
+The calculation of the maximum working time of about 40h.
+
+![calculation of working time](robot/img/working-time.gif)
+
+## Software
+
+The software is a small pythons script that uses [ws4py](https://ws4py.readthedocs.org/en/latest/) as websocket library
+and [DMCC](https://github.com/Exadler/DMCC_Library) to interact with the MotorControllerCape.
+
+### WS4PY
+
+Excerpt from the [documentation of ws4py](https://ws4py.readthedocs.org/en/latest/sources/basics/):
+
+ws4py provides a high-level, yet simple, interface to provide your application with WebSocket support. It is simple as:
+
+```python
+from ws4py.websocket import WebSocket
+```
+
+The `WebSocket <ws4py.websocket.WebSocket>` class should be sub-classed by your application. To the very least we
+suggest you override the `received_message(message) <ws4py.websocket.WebSocket.received_message>` method so
+that you can process incoming messages.
+
+For instance a straightforward echo application would look like this:
+
+```python
+class EchoWebSocket(WebSocket):
+    def received_message(self, message):
+        self.send(message.data, message.is_binary)
+```
+
+Other useful methods to implement are:
+
+   * `opened() <ws4py.websocket.WebSocket.opened>` which is called whenever the WebSocket handshake is done.
+   * `closed(code, reason=None) <ws4py.websocket.WebSocket.closed>` which is called whenever the WebSocket connection
+     is terminated.
+
+You may want to know if the connection is currently usable or `terminated <ws4py.websocket.WebSocket.terminated>`.
+
+At that stage, the subclass is still not connected to any data source. The way ws4py is designed, you don't
+necessarily a connected socket, in fact, you don't even need a socket at all.
+
+
+```python
+
+>>> from ws4py.messaging import TextMessage
+>>> def data_source():
+>>>     yield TextMessage(u'hello world')
+
+>>> from mock import MagicMock
+>>> source = MagicMock(side_effect=data_source)
+>>> ws = EchoWebSocket(sock=source)
+>>> ws.send(u'hello there')
+```
+
+### DMCC
+
+The DMCC library enables python to interact with the motor controller cape. The cape generates a PWM proportional to
+a value between -10000 and 10000 which can be configured over a Python interface. The Cape can be stacked 4 times.
+
+For the Swank-Rats robot we use one cape to control two motors, one for left and one for right.
+
+It provides an easy to use python interface.
+
+```python
+import DMCC
+
+# turns on motor 1 on board 0 with 50% power
+DMCC.setMotor(0, 1, 5000)
+
+# reverse direction on motor two with 70% power
+DMCC.setMotor(0, 2, -7000)
+
+# turn off the motor
+DMCC.setMotor(0,1,0)
+```
+### State machine
+
+The state machine calculates the current speed of the motor left and right. Therefore the websocket library forward
+the commands press and release to the current state, which is initialized with the state Stop.
+
+![robot state machine](robot/img/state_machine.jpg)
+
+__Example:__
+
+* The current state is `Stop`
+* Press `left` the state `Stop` returns new state `L`
+* Press `straight` the state `L` returns new state `FL`
+* Release `left` the state `FL` return new state `F`
+
+```python
+class State:
+    def __init__(self):
+        pass
+
+    def press(self, key):
+        return Stop()
+
+    def release(self, key):
+        return Stop()
+
+    def getLeft(self):
+        return 0
+
+    def getRight(self):
+        return 0
+
+
+class Stop(State):
+    def press(self, key):
+        if key == "left":
+            return L()
+        if key == "right":
+            return R()
+        if key == "straight":
+            return F()
+        if key == "backwards":
+            return B()
+        return Stop()
+
+    def release(self, key):
+        return Stop()
+
+
+class F(State):
+    def press(self, key):
+        if key == "left":
+            return FL()
+        if key == "right":
+            return FR()
+        return Stop()
+
+    def release(self, key):
+        return Stop()
+
+    def getLeft(self):
+        return 100
+
+    def getRight(self):
+        return 100
+
+
+class MessageParser:
+    """Parses JSON messages an performs the according SwankRatsRobot action"""
+
+    def __init__(self):
+        self.robot = Robot()
+        self.currentState = StateClasses.Stop()
+
+    def execute(self, key, pressed):
+        if pressed:
+            self.currentState = self.currentState.press(key)
+        else:
+            self.currentState = self.currentState.release(key)
+
+        self.robot.set(self.currentState.getLeft(), self.currentState.getRight())
+```
