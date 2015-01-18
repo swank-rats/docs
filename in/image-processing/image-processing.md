@@ -98,6 +98,7 @@ The other image features of the webcam are
 
 ### Latency
 TODO what we want
+TODO Messung der gesamten Schussüberlagerung und Senden an den Client
 
 ## Architecture
 TODO Architecture diagram
@@ -158,9 +159,12 @@ After our tests we decided to use contour detect for our object detect. The reas
 via contours works faster, more stable and produces less errors during the detect produces than the RGB and HSV detection.
 
 ## Websocket communication
+
 TODO
 
 ### Handling of connection loss
+If the connection to the NodeJS server gets lost we try to reconnect for one second. In this time all outgoing messages will be buffered and if a reconnect was successful, they will be sent. Otherwise they will be lost and not sent. 
+
 
 ## Video streaming to HTML client
 We decided to use [Motion JPEG (MJPEG)](http://en.wikipedia.org/wiki/Motion_JPEG) since it is very easy to implement, has only less restrictions and can be easily provided over HTTP.
@@ -183,6 +187,8 @@ MJPEG has the big advantages that it is easy to implement, no further libraries 
 The disadvantages were the inefficiency compared to more modern formats like H.264/MPEG-4 AVC as you have to always send the whole image. There is no interframe compression like in other, more modern standards. In our case we were also faced to some performance loss caused by the TCP connection, which we have to use since we talk to a browser.
 
 ### Handling of connection loss
+Handling of connection loss is not that easy since MJPEG functionality is embedded into the clients browser and we have no control about it. 
+
 TODO
 
 ### Handling of no available video stream
