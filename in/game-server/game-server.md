@@ -42,10 +42,11 @@ Node.js is an open source, cross-platform runtime environment for Javascript app
 ## Game controls
 
 A robot can be controlled with the arrow keys:
-- W will accelerate the robot and it will drive in the direction it is looking
-- S will accelerate the robot and it will drive backwards
-- A will rotate the robot to the left
-- D will rotate the robot to the right
+
+* W will accelerate the robot and it will drive in the direction it is looking
+* S will accelerate the robot and it will drive backwards
+* A will rotate the robot to the left
+* D will rotate the robot to the right
 
 With the 'L' the player can shoot. As long as the keys are pressed the robot will drive. When no key is pressed the robot will stop. 
 
@@ -68,3 +69,9 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
 
 4. After the game:
    Is a game finished both players see a message and will then be redirected to the highscore page. The game itself will be set on finished and a new game can be started.
+
+
+## Security
+
+To secure the game-server all connections uses SSL and the websockets have to use basic http authentication. Otherwise
+the connection will be canceled.
