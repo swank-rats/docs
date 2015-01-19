@@ -146,7 +146,7 @@ $endfor$
 $if(title)$
 \title{$title$}
 $endif$
-\author{$for(author)$$author$$sep$ \and $endfor$}
+\author{$for(author)$$author.name$$sep$ \and $endfor$}
 \date{$date$}
 
 \renewcommand{\figurename}{Abb.}
