@@ -1,7 +1,7 @@
 
 # Game-Server
 
-TODO fancy description of game-server
+The game server is the core component of the swank-rats game and controlls and organizes all the other components and parties in the game.
 
 ## Requirements client and server
 
@@ -73,18 +73,49 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
 
 ## Security
 
-To secure the game-server all connections uses SSL and the websockets have to use basic http authentication. Otherwise
-the connection will be canceled.
+To secure the game-server all connections uses SSL and the websockets have to use basic http authentication. Otherwise the connection will be canceled.
 
 ## Connecting to the server
-All parties conncet to the node.js server via websockets. To register themselves they send 'init' in the cmd-parameter.
+All parties conncet to the node.js server via websockets. To register themselves they send 'init' in the cmd-parameter and node server takes care of the rest.
 
 ### Robot
+When a robot registers himself at the node.js server, its socket-connection gets stored along with some other information like its associated form (square or pentagon).
 
+```Javascript
+init: function(socket, params) {
+   if (!!params.form) {
+       RobotsSockets[params.form] = {
+           socket: socket,
+           params: params,
+           send: function(msg) {
+               ...
+               this.socket.send(msg);
+               ...
+           }
+       };
+   }
+}
+```
 
 ### Imageserver
+When the image server established the connection it gets also stored in a variable along with some event listerns. The first listener gets called when the socket closes. The second listener gets called when a socket specific error occures.
+
+```Javascript
+init: function(socket) {
+   ImageServerSocket = socket;
+
+   socket.on('close', function() {
+      ...
+   }.bind(this));
+
+   socket.on('error', function() {
+       ...
+   }.bind(this));
+}
+```
 ### Client
-When a client registers himself on the server, the socket and its related user (username) will be held in a list. Furthermore each client gets assigned a robot at this point. The robots are not defined by a name but by their form (e.g. square, pentagon).
+When a client registers himself on the server, the socket and its related user (username) will be held in a list. Furthermore each client gets assigned a robot at this point. The robots are not defined by a name but by their form (square, pentagon).
+
 ```Javascript
 init: function(socket, params) {
    if (!!params.user) {
@@ -94,6 +125,17 @@ init: function(socket, params) {
    }
 }
 ```
-#### Reestablishing the connection
 
+#### Reestablishing the websocket connection to the server
+Looses the client the websocket connection to the server (caused by an error), the client tries to reconnect to the server.
 
+```Javascript
+connection.onerror = function(error){
+                        console.error('Websocket error:',error);
+                        console.log('Trying to restart websocket...');
+                        this.init(username, form, wssUrl);
+                    }.bind(this);
+```
+
+#### Reestablishing the stream connection
+When the client looses its connection to the image stream the image-server will inform the node.js server and he will trigger an action on the client to reconnect (e.g. remove and add the stream-dom-element again)
