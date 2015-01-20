@@ -111,6 +111,7 @@ At the beginning of our object detection task we tried different detection solut
 * RGB detection
 * HSV detection
 * Contour detection with marker
+* Moving detection
 
 #### RGB Color detection
 First of all we tried to solve the object detection by using a color detection.
@@ -154,9 +155,214 @@ Below you can see the detection with nested contours. Only the rectangles with t
 
 ![Rectangle model nested after detection](image-processing/img/detectionImageNestedDetection)
 
-### Conclusion Lessons learned
+#### Moving detection
+We also tried to detect a object via his motion. This method has the advantage that the tracking distance is much higher as by the marker method.
+The disadvantage is that the robot must start in a certain position (cheese spin forward) to enable it using vector calculations to determine the new position of the cheese spin after a motion step.
+Furthermore, it is not possible to use this technology to turn the robot in the state, because that would have no effect on the motion detection.
+Because of the fact that the detection of the front of the robot is easier with the marker detection and also the detection of the front after a robot turn in the state we decided to not use the moving detection.
+
+
+#### Conclusion Lessons learned
 After our tests we decided to use contour detect for our object detect. The reason for this is that the detect
 via contours works faster, more stable and produces less errors during the detect produces than the RGB and HSV detection.
+We also decided us against the moving detection because of the fact that the detection of the front of the robot is easier with the marker detection and also the detection of the front after a robot turn in the state.
+
+
+
+### Object detection realization
+#### Robot detection
+We decided to detect the Robots via a contour detection method
+
+In order to bring more security in the contour detection, we have decided to use nested contours instead of simple contours.
+This enables us to detect the object more error-free and more stable then with simple contours.
+Below you can see the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
+
+![Rectangle model nested](image-processing/img/originalImageNestedDetection)
+
+![Rectangle model nested after detection](image-processing/img/detectionImageNestedDetection)
+
+We decided to used the following geometric forms:
+* Rectangle with isosceles triangle in it
+* Pentagon with isosceles triangle in it
+
+##### Detection processing
+In our detection process for a robot we first convert the original image of the video stream in to another color space via the following method
+```C++
+cvtColor(srcdetect2, src_graydetect2, COLOR_BGR2GRAY);
+```
+We convert the original image BGR space into a GRAY space and save this in a template image.
+After this converting process use the following blur function to smooth the image.
+```C++
+blur(src_graydetect2, src_graydetect2, Size(3, 3));
+```
+The main objective of smoothing is to reduce noise. Such noise reduction is a typical image pre-processing method which will improve the final result.
+Smoothing is done by sliding a window (kernel or filter) across the whole image and calculating each pixel a value based on the value of the kernel and the value of overlapping pixels of original image. This process is mathematically called as convolving an image with some kernel. 
+We used the homogeneous smoothing method. This is the most simplest method of smoothing an image. It takes simply the average of the neighbourhood of a pixel and assign that value to itself.
+You have to choose right size of the kernel. If it is too large, small features of the image may be disappeared and image will look blurred. If it is too small, you cannot eliminate noises of the image.
+We decided to use a 3x3 Kernel because we thus achieve the best results. 
+
+The next step is that wie make a Canny Edge detection
+```C++
+Canny(src_graydetect2, canny_output, threshdetect2, threshdetect2 * 2, 3);
+```
+Canny algorithm aims to satisfy three main criteria:
+* Low error rate: Meaning a good detection of only existent edges.
+* Good localization: The distance between edge pixels detected and real edge pixels have to be minimized.
+* Minimal response: Only one detector response per edge.
+
+The values of the thresholds must be set before the games started at the moment the thresholds are set between 30 and 60.
+The selected threshold value depends on the distance to the object and the environment of the detection area.
+
+After the canny detection we run a threshold function over the image. Therefore we use a binary threshold method
+```C++
+threshold(canny_output, canny_output, 128, 255, CV_THRESH_BINARY);
+```
+
+After all this preparation steps we call the find contours method which returns all founded contours.
+```C++
+findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+```
+contours – Detected contours. Each contour is stored as a vector of points.
+hierarchy – Optional output vector, containing information about the image topology. 
+It has as many elements as the number of contours. For each i-th contour contours[i] , 
+the elements hierarchy[i][0] , hiearchy[i][1] , hiearchy[i][2] , and hiearchy[i][3] 
+are set to 0-based indices in contours of the next and previous contours at the same hierarchical level,
+the first child contour and the parent contour, respectively. If for the contour i there are no next, 
+previous, parent, or nested contours, the corresponding elements of hierarchy[i] will be negative.
+CV_RETR_TREE - retrieves all of the contours and reconstructs a full hierarchy of nested contours.
+CV_CHAIN_APPROX_SIMPLE - compresses horizontal, vertical, and diagonal segments and leaves only their end points. For example, an up-right rectangular contour is encoded with 4 points.
+
+After this step we iterate over each founded contour and try to find our rectangle or pentagon form.
+In each iteration step we first call the approxPolyDP method. Approximates a polygonal curve(s) with the specified precision.
+```C++
+approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.1, true);
+````
+The functions approxPolyDP approximate a curve or a polygon with another curve/polygon with less vertices so that the distance between them is less or equal to the specified precision. It uses the Douglas-Peucker algorithm
+
+Then we skip small or non-convex objects and only extract the rectangle and triangles (Code below shows the rectangle marker detection)
+```C++
+if (std::fabs(cv::contourArea(contours[i])) < 100 || !cv::isContourConvex(approx))
+	continue;
+
+// Rectangles
+
+if (approx.size() == 4)
+{
+	rectangles.push_back(contours[i]);
+	rectanglesContourPositions.push_back(i);
+}
+
+if (approx.size() == 3)
+{
+	triangles.push_back(approx);
+	trianglePositions.push_back(i);
+}
+```
+
+After that we check via the pointPolygonTest method of opencv if on of our founded triangle is in one of our founded rectangles.
+This method returns us the position of the allowed rectangle and triangle in the contour list.
+With this information we can calculate the front and the shooting direction of the cheese spin.
+Below you can se the method which calculate this.
+```C++
+Point p1 = tri[0];
+Point p2 = tri[1];
+Point p3 = tri[2];
+
+Point lP1P2 = p1 - p2;
+Point lP2P3 = p2 - p3;
+Point lP3P1 = p3 - p1;
+
+double l1 = sqrt((lP1P2.x*lP1P2.x) + (lP1P2.y*lP1P2.y));
+double l2 = sqrt((lP2P3.x*lP2P3.x) + (lP2P3.y*lP2P3.y));
+double l3 = sqrt((lP3P1.x*lP3P1.x) + (lP3P1.y*lP3P1.y));
+
+double shortest = l1;
+Point toReturn = p3;
+Point dir = Point(lP1P2.x / 2, lP1P2.y / 2) + p2;
+
+if (l2 < shortest)
+{
+	shortest = l2;
+	toReturn = p1;
+	dir = Point(lP2P3.x / 2, lP2P3.y / 2) + p3;
+}
+if (l3 < shortest)
+{
+	shortest = l3;
+	toReturn = p2;
+	dir = Point(lP3P1.x / 2, lP3P1.y / 2) + p1;
+}
+
+Point direction = toReturn - dir;
+vector<Point> points;
+points.push_back(direction);
+points.push_back(dir);
+return points;
+```
+
+After we finished the robot detection and return a Robot object with the informations to the caller method
+```C++
+if (pointsTriRect.size() == 2)
+	return Robot(pointsTriRect[1], pointsTriRect[0], contoursRect);
+```
+
+#### Shoot route calculation
+To detect the shoot route we make following steps.
+First we detect the shooting robot via the robot detection process explained above;
+```C++
+Robot robotShootPlayer = DetectRobot(player, frame);
+```
+
+Fist we calculate the normalized shooting direction vector. The shooting direction was calculated in the robot detection process.
+We added a multiplier to the normalized vector to reduced the time for the calculation.
+```C++
+double length = sqrt(pow(robotShootPlayer.shotDirection.x, 2) + pow(robotShootPlayer.shotDirection.y, 2));
+int multiplier = 5;
+Point normDirection = Point(robotShootPlayer.shotDirection.x / length * multiplier, robotShootPlayer.shotDirection.y / length * multiplier);
+```
+
+After that we calculation the shoot route started from the cheese spin of the shooting robot to the end of the play area.
+For that we start a iteration and in each of this iteration we add the normalized shooting direction vector of the shooting player to the shooting start point.
+We make procedure as long as we run out of the playing area.
+```C++
+while (!found)
+	{
+		if (!rect.contains(currentPoint))
+		{
+			endPoint = currentPoint - normDirection;
+			found = true;
+		}
+
+		currentPoint += normDirection;
+	}
+```
+
+At least we return the Shot route to the caller method
+```C++
+return Shot(player, Point2i(robotShootPlayer.shotStartingPoint.x, robotShootPlayer.shotStartingPoint.y), Point2i(endPoint.x, endPoint.y));
+```
+
+#### Hit detection
+To detect a hit we make following steps.
+First we detect the hit robot via the robot detection process explained above;
+```C++
+Robot robotHitPlayer = DetectRobot(shot.hitPlayer, frame);
+```
+
+After this we fetch the actual position of the thrown cheese int the shot route.
+```C++
+Point2i tmp = shot.GetCurrentShotPoint();
+```
+With this point we look if the point is in the contours of the robot via the pointPolygonTest method(the marke have the same size as the robots).
+The result will be returned to the caller method.
+```C++
+if (pointPolygonTest(Mat(robotHitPlayer.robotForm), currentShotingPoint, true) > 0)
+	return true;
+else
+	return false;
+```
+
+
 
 ## Websocket communication
 
