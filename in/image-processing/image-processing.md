@@ -175,11 +175,6 @@ We decided to detect the Robots via a contour detection method
 
 In order to bring more security in the contour detection, we have decided to use nested contours instead of simple contours.
 This enables us to detect the object more error-free and more stable then with simple contours.
-Below you can see the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
-
-![Rectangle model nested](image-processing/img/originalImageNestedDetection)
-
-![Rectangle model nested after detection](image-processing/img/detectionImageNestedDetection)
 
 We decided to used the following geometric forms:
 * Rectangle with isosceles triangle in it
