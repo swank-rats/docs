@@ -77,9 +77,23 @@ To secure the game-server all connections uses SSL and the websockets have to us
 the connection will be canceled.
 
 ## Connecting to the server
+All parties conncet to the node.js server via websockets. To register themselves they send 'init' in the cmd-parameter.
+
 ### Robot
+
+
 ### Imageserver
-### Client 
+### Client
+When a client registers himself on the server, the socket and its related user (username) will be held in a list. Furthermore each client gets assigned a robot at this point. The robots are not defined by a name but by their form (e.g. square, pentagon).
+```Javascript
+init: function(socket, params) {
+   if (!!params.user) {
+      ClientSockets[params.user] = socket;
+      setRobotSocketForUser(params.user, params.form);
+      ...
+   }
+}
+```
 #### Reestablishing the connection
 
 
