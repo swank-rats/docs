@@ -75,3 +75,11 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
 
 To secure the game-server all connections uses SSL and the websockets have to use basic http authentication. Otherwise
 the connection will be canceled.
+
+## Connecting to the server
+### Robot
+### Imageserver
+### Client 
+#### Reestablishing the connection
+
+
