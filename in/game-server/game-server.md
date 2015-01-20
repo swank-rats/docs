@@ -131,10 +131,10 @@ Looses the client the websocket connection to the server (caused by an error), t
 
 ```Javascript
 connection.onerror = function(error){
-                        console.error('Websocket error:',error);
-                        console.log('Trying to restart websocket...');
-                        this.init(username, form, wssUrl);
-                    }.bind(this);
+   console.error('Websocket error:',error);
+   console.log('Trying to restart websocket...');
+   this.init(username, form, wssUrl);
+}.bind(this);
 ```
 
 #### Reestablishing the stream connection
