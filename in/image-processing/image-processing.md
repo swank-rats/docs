@@ -180,6 +180,8 @@ We decided to used the following geometric forms:
 * Rectangle with isosceles triangle in it
 * Pentagon with isosceles triangle in it
 
+But at the end of our project we found out that the pentagon is not the best opposite form for the rectangle. Instead of the pentagon we now use a circle wit a isosceles triangle in it.
+
 ##### Detection processing
 In our detection process for a robot we first convert the original image of the video stream in to another color space via the following method
 ```C++
@@ -213,7 +215,12 @@ After the canny detection we run a threshold function over the image. Therefore 
 threshold(canny_output, canny_output, 128, 255, CV_THRESH_BINARY);
 ```
 
-After all this preparation steps we call the find contours method which returns all founded contours.
+For the circle marker detection we must perform following method before we search after the contours because with the standard findContours method you can not find circles 
+```C++
+HoughCircles(src_graydetect2, circles, CV_HOUGH_GRADIENT, 1, src_graydetect2.rows / 8, 60, 30, 0, 0);
+```
+
+After all this preparation steps we call the find contours method  which returns all founded contours.
 ```C++
 findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
 ```
@@ -227,7 +234,7 @@ previous, parent, or nested contours, the corresponding elements of hierarchy[i]
 CV_RETR_TREE - retrieves all of the contours and reconstructs a full hierarchy of nested contours.
 CV_CHAIN_APPROX_SIMPLE - compresses horizontal, vertical, and diagonal segments and leaves only their end points. For example, an up-right rectangular contour is encoded with 4 points.
 
-After this step we iterate over each founded contour and try to find our rectangle or pentagon form.
+After this step we iterate over each founded contour and try to find our rectangle and triangle forms.
 In each iteration step we first call the approxPolyDP method. Approximates a polygonal curve(s) with the specified precision.
 ```C++
 approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.1, true);
@@ -254,8 +261,11 @@ if (approx.size() == 3)
 }
 ```
 
-After that we check via the pointPolygonTest method of opencv if on of our founded triangle is in one of our founded rectangles.
-This method returns us the position of the allowed rectangle and triangle in the contour list.
+
+
+
+After that we check via the pointPolygonTest method of opencv if on of our founded triangle is in one of our founded rectangles or circles.
+This method returns us the position of the allowed rectangle and circles and triangles.
 With this information we can calculate the front and the shooting direction of the cheese spin.
 Below you can se the method which calculate this.
 ```C++
@@ -357,6 +367,15 @@ else
 	return false;
 ```
 
+### Performance measurement object recognition
+During our project we had the problem that our webcam streaming was very slow. After hours of searching we found out that one reason for the problem was that our object detection recognition was to slow.
+So we started a performance measurement were we measure each method call. By this time measurement, we found out that the most time of our object recognition is needed from the opencv method like cvtColor, blur, findContours,etc.
+Below you can see the results of this measurement.
+
+![Cheese-throw directions](image-processing/img/imageProcessingTime)
+
+According to this knowledge we have tried to improve image processing. We enlarged the size of the objects after that we search. This brought us an improvement of about 20ms.
+However, our hands are tied because we  unfortunately cases improve the opencv methods.
 
 
 ## Websocket communication
