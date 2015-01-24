@@ -79,7 +79,7 @@ To secure the game-server all connections uses SSL and the websockets have to us
 All parties conncet to the node.js server via websockets. To register themselves they send 'init' in the cmd-parameter and node server takes care of the rest.
 
 ### Robot
-When a robot registers himself at the node.js server, its socket-connection gets stored along with some other information like its associated form (square or pentagon).
+When a robot registers himself at the node.js server, its socket-connection gets stored along with some other information like its associated form (square or circle).
 
 ```Javascript
 init: function(socket, params) {
@@ -97,6 +97,8 @@ init: function(socket, params) {
 }
 ```
 
+When a game is gets started all robots will receive a start message which tells the robot that it should execute all moving commands from now on. When a game is ended all robots will receive a end message which indicates that it should not do anything unless he receives a start message again.
+
 ### Imageserver
 When the image server established the connection it gets also stored in a variable along with some event listerns. The first listener gets called when the socket closes. The second listener gets called when a socket specific error occures.
 
@@ -113,8 +115,13 @@ init: function(socket) {
    }.bind(this));
 }
 ```
+
+Furthermore the imageserver tells the node server when a player has been hit. Therefore a seperate hit listener exists which needs as parameter the form of the player that was hit and the precicsion to calculate the damage.
+
+Aside from these available listeners the imageserver accepts also a start, stop and a shoot message. The start and stop message work in the same way as for the robots. The shoot message tell the sever that specific player fired a cheese bullet. This will trigger the needed logic and draw a bullet on the images. 
+
 ### Client
-When a client registers himself on the server, the socket and its related user (username) will be held in a list. Furthermore each client gets assigned a robot at this point. The robots are not defined by a name but by their form (square, pentagon).
+When a client registers himself on the server, the socket and its related user (username) will be held in a list. Furthermore each client gets assigned a robot at this point. The robots are not defined by a name but by their form (square, circle).
 
 ```Javascript
 init: function(socket, params) {
@@ -126,8 +133,13 @@ init: function(socket, params) {
 }
 ```
 
+Furthermore the client will accept following messages which will trigger an event on the client side:
+- __changedStatus__ when a game state has changed
+- __hit__ when a player has been hit
+- __connectionLost__ when the connection to the image stream has been lost
+
 #### Reestablishing the websocket connection to the server
-Looses the client the websocket connection to the server (caused by an error), the client tries to reconnect to the server.
+When a client looses the websocket connection to the server (caused by an error), the client tries to reconnect to the server.
 
 ```Javascript
 connection.onerror = function(error){
