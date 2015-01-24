@@ -162,7 +162,7 @@ mean.io provides a lot of functionallity which was useful, but it also complicat
 
 These problems could have been solved easier but as mean.io is quite a new framework it has also quite a small community and the resources in the internet are very few. 
 
-### certificate
+### Certificate
 Another problem was the certificate for the ssl connection. The different parties had different strict rules when to accept an ssl certificate. For example the python implementation did not need a FQDN in the certificate but the image-server (the used library was poco) needed a FQDN or at least an ip address to accept the certificate. So it was not such a big problem but you have to know it. Otherwise you keep wondering why one party accepts the certificate and the other just declines it without telling you why.
 
 
