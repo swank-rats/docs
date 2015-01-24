@@ -156,15 +156,15 @@ connection.onerror = function(error){
 #### Reestablishing the stream connection
 When the client looses its connection to the image stream the image-server will inform the node.js server and he will trigger an action on the client to reconnect (e.g. remove and add the stream-dom-element again).
 
-## Conclusion
-
-### Problems
-#### mean.io
+## Problems
+### mean.io
 mean.io provides a lot of functionallity which was useful, but it also complicated some things like for e.g. the authentication via websockets or extending the user entity. It was not possible to get the session of a user when you do not use mean.io's predifined structure. Furthermore it is also quite complicated to propagate new fields added to a user entity, because somewhere in the code of mean.io some properties of the user object the get cut off. 
 
 These problems could have been solved easier but as mean.io is quite a new framework it has also quite a small community and the resources in the internet are very few. 
 
-#### certificate
+### certificate
 Another problem was the certificate for the ssl connection. The different parties had different strict rules when to accept an ssl certificate. For example the python implementation did not need a FQDN in the certificate but the image-server (the used library was poco) needed a FQDN or at least an ip address to accept the certificate. So it was not such a big problem but you have to know it. Otherwise you keep wondering why one party accepts the certificate and the other just declines it without telling you why.
 
+
+## Conclusion
 Nontheless it was interessting expirience to work with such a technologyies!
