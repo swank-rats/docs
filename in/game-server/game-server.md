@@ -25,6 +25,8 @@ __Server:__
 - FEATURE: game unrelated users with a smartphone should able to watch the current game on their smartphones. This means that these users should film the game from defined positions with their smartphones and another image will be used as overlay to display player interactions and more
 
 ## MEAN-Stack
+We used the mean stack provided by [mean.io](http://mean.io) because it provides already a lot of the basic needs like a user registration and some demo packages.
+
 This stack consists of four different software components which work very smooth with each other. These components are the MongoDB which is a database, the and Express the Angular.js Javascript frameworks and last but not least the Node.js environment.
 
 __MongoDB__
@@ -59,7 +61,7 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
    Each player can controll a robot with the keys mentioned above and he can shoot cheese bullets at the other player by pressing the L key. You can find more information about the controlls in the [game controlls](https://github.com/swank-rats/docs/blob/master/game/02_game_controlls.md) section.
 
   * Gameplay:
-    The goal of the game is to reduce the lifepoints of the opponents by shooting him with the cheese bullets. This means when at least two players have lifepoints left the game will continue. The amount of lifepoints and the damage caused by cheesebullets should be configurated in the config-file. Also the multiplicator for fast wins should be configured there.
+    The goal of the game is to reduce the lifepoints of the opponents by shooting him with the cheese bullets. This means when at least two players have lifepoints left the game will continue. The amount of lifepoints and the damage caused by cheesebullets should be configurated in the config-file. Also the multiplicator for fast wins in the highscore calculation should be configured there.
 
   * Highscore:
     The final highscore will be calculated from the needed time and the remaining lifepoints. A highscore will be created for the winner. 
@@ -150,4 +152,14 @@ connection.onerror = function(error){
 ```
 
 #### Reestablishing the stream connection
-When the client looses its connection to the image stream the image-server will inform the node.js server and he will trigger an action on the client to reconnect (e.g. remove and add the stream-dom-element again)
+When the client looses its connection to the image stream the image-server will inform the node.js server and he will trigger an action on the client to reconnect (e.g. remove and add the stream-dom-element again).
+
+## Conclusion
+
+### Problems
+__mean.io__
+mean.io provides a lot of functionallity which was useful, but it also complicated some things like for e.g. the authentication via websockets or extending the user entity. It was not possible to get the session of a user when you do not use mean.io's predifined structure. Furthermore it is also quite complicated to propagate new fields added to a user entity, because somewhere in the code of mean.io some properties of the user object the get cut off. 
+
+These problems could have been solved easier but as mean.io is quite a new framework it has also quite a small community and the resources in the internet are very few. 
+
+Nontheless it was interessting expirience to work with such a technology!
