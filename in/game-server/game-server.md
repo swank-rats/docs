@@ -72,8 +72,11 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
 4. After the game:
    Is a game finished both players see a message and will then be redirected to the highscore page. The game itself will be set on finished and a new game can be started.
 
-Below you can find an image of the general ![lifecycle][lifecycle] of a game.
-[lifecycle]: game-server/images/lifecycle.png "Lifecycle of a game"
+[1]: game-server/images/lifecycle.png "Lifecycle of a game"
+
+Below you can find an image of the general [lifecycle][1] of a game.
+
+![lifecycle][1]
 
 ## Security
 
