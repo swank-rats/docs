@@ -372,7 +372,7 @@ During our project we had the problem that our webcam streaming was very slow. A
 So we started a performance measurement were we measure each method call. By this time measurement, we found out that the most time of our object recognition is needed from the opencv method like cvtColor, blur, findContours,etc.
 Below you can see the results of this measurement.
 
-![Cheese-throw directions](image-processing/img/imageProcessingTime)
+![Cheese-throw directions](image-processing/img/imageProcessingTime.jpg)
 
 According to this knowledge we have tried to improve image processing. We enlarged the size of the objects after that we search. This brought us an improvement of about 20ms.
 However, our hands are tied because we  unfortunately cases improve the opencv methods.
