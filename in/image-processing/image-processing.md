@@ -202,7 +202,7 @@ We used the homogeneous smoothing method. This is the most simplest method of sm
 You have to choose right size of the kernel. If it is too large, small features of the image may be disappeared and image will look blurred. If it is too small, you cannot eliminate noises of the image.
 We decided to use a 3x3 Kernel because we thus achieve the best results. 
 
-The next step is that wie make a Canny Edge detection
+The next step is that wie make a Canny Edge detection to extract the edges
 ```C++
 Canny(src_graydetect2, canny_output, threshdetect2, threshdetect2 * 2, 3);
 ```
