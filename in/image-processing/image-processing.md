@@ -1,8 +1,6 @@
 
 # Image-Processing
 
-TODO fancy description for image-processing
-
 ## Components
 For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
 
