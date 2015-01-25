@@ -101,7 +101,8 @@ TODO what we want
 TODO Messung der gesamten Schussüberlagerung und Senden an den Client
 
 ## Architecture
-TODO Architecture diagram
+The below shown figure illustrates the component diagram of our program with the corresponding components and their package distribution and the relations of them.
+![component diagram](image-processing/img/KompImg)
 
 ### Simulation Shot
 The below shown figure illustrates how a the shot simulation process in our application works.
