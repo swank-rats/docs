@@ -119,3 +119,7 @@ __Properties:__
 __Remark:__ If no `cmd` is defined a `default` callback on the listener is called.
 
 The communication library is only full implemented for the node.js server. The clients uses the raw JSON-string.
+
+## Traffic
+
+Each packet has a size between 30 to 60 bytes. But 20 bytes of the packets are overhead caused by JSON and the protocol design ("to", "cmd",...). 

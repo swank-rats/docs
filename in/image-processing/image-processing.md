@@ -1,12 +1,12 @@
 
-# Image-Processing
+# Image Processing Server
 
 ## Components
 For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
 
 For networking, including HTTP and WebSockets, threading and logging we use the functionality provided by the [Poco C++ Libraries 1.4.7](http://pocoproject.org/).
 
-For the communication between the NodeJS server and the image-processing server we decided to use WebSockets and JSON objects. To fulfil this purpose we can use the API of Poco.
+For the communication between the game-server and the image processing server we decided to use WebSockets and JSON objects. To fulfil this purpose we can use the API of Poco.
 
 For compiling our source code we use Microsoft Visual C++ Compiler 18.00.21005.1 for x86 platform. Therefore we also use Visual Studio 2013 as our IDE. 
 
@@ -31,7 +31,7 @@ We adapted the fix, which is mentioned in the bug report, to our local boost sou
 The error log of the IDE did not mention anything helpful about this error. We got the same error with the previous Boost libary (1.55). After some research about this error message we finally gave up at this point and decided to changed to VS 2013, VC++ and compiled Boost with the VC++ compiler. 
 
 ## Why using Poco instead of Boost
-First we wanted to use [Boost](http://www.boost.org/) for the threading, networking and so on. Boost was also reason why we changed from Eclipse to Visual Studio. But finally, when we were faced with the communication of the image processing application to the NodeJS server, we investigated a lot of time to get WebSockets running with Boost and we failed. 
+First we wanted to use [Boost](http://www.boost.org/) for the threading, networking and so on. Boost was also reason why we changed from Eclipse to Visual Studio. But finally, when we were faced with the communication of the image processing application to the game-server, we investigated a lot of time to get WebSockets running with Boost and we failed. 
 
 ### Problems with WebSocket libraries
 We tried to use [Simple-WebSocket-Server](https://github.com/eidheim/Simple-WebSocket-Server). One of the big advantages of this library would have been that it uses Boost.Asio, but we got the following compiler error:
@@ -55,29 +55,27 @@ Finally we found [Poco 1.4.7](http://pocoproject.org/), which is a library like 
 * Collision detection
 	- Robot/wall collision
 	- Shot/robot collision
-	- Robot/robot collision
 	- Shot/wall collision
-* Position detection of walls/robots
-* Communication with NodeJS server
+* Position detection of walls and robots
+* Communication with game-server
 * Simulation of shoots in video stream
 
-### Communication with NodeJS server
-It is necessary that the NodeJS server and the image-processing can talk with each other. The communication is needed, because the NodeJS server has not enough knowledge to make all the game logic decision by its own. 
+### Communication with game-server
+It is necessary that the game-server and the image processing server can talk with each other. The communication is needed, because the game-server has not enough knowledge to make all the game logic decision by its own. 
 
 The following messages can be sent:
 
-* Messages by image-processing server to the NodeJS server
-	- If a collision was detected (see above which cases exist)
-	- If a shot was made to notify if a robot was hit or not
-* Messages by NodeJS server to image-processing server
-	- If a shot was make by a player
+* Messages by image processing server to the game-server
+	- Establishing the connection
+	- If the video stream connection was lost to a client
+	- If a shot hit a player
+* Messages by game-server to image processing server
+	- If a shot was made by a player
 	- If game has stopped
 	- If game has started
-	- If game has paused (e.g. connection problems)
-	- Info about which player has which robot
 
 ### Video quality and resolution
-For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 640X480 resolution for the streaming. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. 
+For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 640X480 resolution for the streaming with 15 FPS. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. 
 Therefore the system need following requirements
 
 * Intel Dual Core 3.0 GHz or higher
@@ -93,10 +91,6 @@ The other image features of the webcam are
 * True Color - Automatic image adjustment with manual override
 * 16:9 widescreen
 *24-bit color depth
-
-### Latency
-TODO what we want
-TODO Messung der gesamten Schussüberlagerung und Senden an den Client
 
 ## Architecture
 The below shown figure x illustrates the component diagram of our program with the corresponding components and their package distribution and the relations of them.
@@ -382,16 +376,15 @@ According to this knowledge we have tried to improve image processing. We enlarg
 However, our hands are tied because we  unfortunately cases improve the opencv methods.
 
 
-
-
-
 ## Websocket communication
 
-TODO
+### Connection establishment
+The image processing server contacts the game-server. The IP address of the game-server is passed as command line argument.
+
+![Image processing server command line arguments](image-processing/img/commandline)
 
 ### Handling of connection loss
-If the connection to the NodeJS server gets lost we try to reconnect for one second. In this time all outgoing messages will be buffered and if a reconnect was successful, they will be sent. Otherwise they will be lost and not sent. 
-
+If the connection to the game-server gets lost we try to reconnect for one second. In this time all outgoing messages will be buffered and if a reconnect was successful, they will be sent. Otherwise they will be lost and not sent. 
 
 ## Video streaming to HTML client
 We decided to use [Motion JPEG (MJPEG)](http://en.wikipedia.org/wiki/Motion_JPEG) since it is very easy to implement, has only less restrictions and can be easily provided over HTTP.
@@ -414,9 +407,7 @@ MJPEG has the big advantages that it is easy to implement, no further libraries 
 The disadvantages were the inefficiency compared to more modern formats like H.264/MPEG-4 AVC as you have to always send the whole image. There is no interframe compression like in other, more modern standards. In our case we were also faced to some performance loss caused by the TCP connection, which we have to use since we talk to a browser.
 
 ### Handling of connection loss
-Handling of connection loss is not that easy since MJPEG functionality is embedded into the clients browser and we have no control about it. 
-
-TODO
+Handling of connection loss is not that easy since MJPEG functionality is embedded into the clients browser. But since the image processing server knows the IP address of the connected clients and the game-server knows the IP address of the players, the image processing server notifies the game-server about the connection loss. Afterwards the game-server sends a message to the browser of the client which causes a reconnect by the browser.
 
 ### Handling of no available video stream
 If no video stream is available, e.g. if no webcam is connected to the server, we cannot provide a video stream. In such a case all incoming video stream requests will be answered with HTTP/1.1 500 OK. The HTTP status code 500 means an internal server error occurred. Afterwards the connection is closed. 
@@ -426,13 +417,45 @@ At the beginning we were faced with high delay rates of over 70 ms between each 
 
 We figured out that there were several reasons for this. Two main problems were directly located in our implementation. We had some unneeded thread synchronization code and we also cloned each frame, which is not necessary since the used data structure ([OpenCV Mat](http://docs.opencv.org/modules/core/doc/basic_structures.html#mat)) provides reference counting. So a copy of a Mat object will not result in copying the whole image. Both instances will share the matrix, which represents the image. 
 
-Next we figured out that we send about 80 - 90 kb per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 kb by setting the quality to 30 %. 
-
-TODO add image that compares original stream with stream received by client
+Next we figured out that we send about 80 - 90 kb per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 to 18 kb by setting the quality to 30 %. 
 
 With this few changes we could decrease the delay to about 20 ms, which is acceptable. 
 
 One big disadvantage, which costs a lot of performance, is the TCP connection overhead. Sadly it is not possible to provide an MJPEG stream via UDP to a browser. 
+
+We could also figured out two bottlenecks in our code. The encoding of a frame needs about 30 ms and this was done for each stream connection separately. This is now done only once per frame. Another mistake were the following lines of code:
+
+```C++
+....
+std::ostream& out = response.send(); //output stream
+....
+vector<uchar>* buf = webcamService->GetModifiedImage(); //get frame
+....
+std::string content = std::string(buf.begin(), buf.end());
+....
+out << content;
+....
+```
+
+The problem with this lines are the the conversion to string needs between 20 - 30 ms. We could improve this by reinterpret the vector containing the image like this: 
+
+```C++
+....
+std::ostream& out = response.send(); //output stream
+....
+vector<uchar>* buf = webcamService->GetModifiedImage(); //get frame
+....
+out.write(reinterpret_cast<const char*>(buf.data()), buf.size());
+....
+```
+
+![Stream output improvement](image-processing/img/mjpg_output_imrpovment)
+
+### Traffic
+
+Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred.
+
+![Screenshot of one measurement result](image-processing/img/MJPEGstream_client)
 
 ## Cheese-throw simulation
 The simulation of throwing a cheese is done by overlay the webcam stream with the images needed for the simulation. One Cheese-throw simulation consists of three parts:
@@ -445,7 +468,7 @@ The following image illustrated all three states.
 
 ![Cheese-throw simulation states](image-processing/img/Shot_animation)
 
-A simulation is started if the NodeJS server tells the image processing server that a cheese was thrown by a player. We can then determine the start and end point of a cheese-throw simulation, since we know the position and the viewing direction of the throwing player and by the fact that we are only simulating straightly throws.. The simulation is immediately started with the next occurring webcam frame and therefore also immediately visible for the clients. The decision, if a player or a wall was hit by the cheese is done when the simulation reached the end point. So we can ensure that the other player gets the chance to avoid a collision with the cheese. 
+A simulation is started if the game-server tells the image processing server that a cheese was thrown by a player. We can then determine the start and end point of a cheese-throw simulation, since we know the position and the viewing direction of the throwing player and by the fact that we are only simulating straightly throws.. The simulation is immediately started with the next occurring webcam frame and therefore also immediately visible for the clients. The decision, if a player or a wall was hit by the cheese is done when the simulation reached the end point. So we can ensure that the other player gets the chance to avoid a collision with the cheese. 
 
 The calculations for a simulation is not that complicated since the start and end point can be interpreted as a right-angled triangle, as the following image illustrates.
 
