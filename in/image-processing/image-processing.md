@@ -1,8 +1,6 @@
 
 # Image-Processing
 
-TODO fancy description for image-processing
-
 ## Components
 For the implementation of our image processing functionality we decided to use C++ in connection with OpenCV 2.4.9 (http://opencv.org/). It will help us to get the video stream of a webcam, to detect the position of the robots and to detect collisions (e.g. collision between robot and wall, but also collisions between a shot and a wall or robot).
 
@@ -101,7 +99,12 @@ TODO what we want
 TODO Messung der gesamten Schussüberlagerung und Senden an den Client
 
 ## Architecture
-TODO Architecture diagram
+The below shown figure illustrates the component diagram of our program with the corresponding components and their package distribution and the relations of them.
+![component diagram](image-processing/img/KompImg)
+
+### Simulation Shot
+The below shown figure illustrates how a the shot simulation process in our application works.
+![sequence diagram shot](image-processing/img/Shot)
 
 ## Object detection
 
@@ -198,7 +201,7 @@ We used the homogeneous smoothing method. This is the most simplest method of sm
 You have to choose right size of the kernel. If it is too large, small features of the image may be disappeared and image will look blurred. If it is too small, you cannot eliminate noises of the image.
 We decided to use a 3x3 Kernel because we thus achieve the best results. 
 
-The next step is that wie make a Canny Edge detection
+The next step is that wie make a Canny Edge detection to extract the edges
 ```C++
 Canny(src_graydetect2, canny_output, threshdetect2, threshdetect2 * 2, 3);
 ```
@@ -372,10 +375,13 @@ During our project we had the problem that our webcam streaming was very slow. A
 So we started a performance measurement were we measure each method call. By this time measurement, we found out that the most time of our object recognition is needed from the opencv method like cvtColor, blur, findContours,etc.
 Below you can see the results of this measurement.
 
-![Cheese-throw directions](image-processing/img/imageProcessingTime.jpg)
+![image processing time](image-processing/img/imageProcessingTime.jpg)
 
 According to this knowledge we have tried to improve image processing. We enlarged the size of the objects after that we search. This brought us an improvement of about 20ms.
 However, our hands are tied because we  unfortunately cases improve the opencv methods.
+
+
+
 
 
 ## Websocket communication
