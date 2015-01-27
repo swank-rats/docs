@@ -16,7 +16,13 @@ abstract: '{% include 'abstract.md' %}'
 
 # Introduction
 
-TODO fancy description of project
+Swank-Rats is a mulitplayer, realtime, augmentmented reality, browser based, distributed, platform independent and
+awsesome game. Which combines modern technologies and communication systems.
+
+It was developed by a team of 5 people in the course "S1 - Kopplung und Integration von heterogenen Systemen" at the
+university of applied science in Dornbirn.
+
+![University of applied science](http://upload.wikimedia.org/wikipedia/de/thumb/6/62/Fachhochschule_Vorarlberg_logo.svg/200px-Fachhochschule_Vorarlberg_logo.svg.png)
 
 ## Game Idea
 
