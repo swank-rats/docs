@@ -16,7 +16,7 @@ The robot hardware is a composition of several parts:
   
 ![BeagleBoneBlack from above](robot/img/bbb)
   
-* [Chasis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
+* [Chassis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
   is powered by two electric motor and two wheels, which provides to corner sharply.
   
 ![Chassis example picture](robot/img/chassis)
@@ -125,7 +125,6 @@ necessarily a connected socket, in fact, you don't even need a socket at all.
 
 
 ```python
-
 >>> from ws4py.messaging import TextMessage
 >>> def data_source():
 >>>     yield TextMessage(u'hello world')
