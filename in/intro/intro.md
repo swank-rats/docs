@@ -30,7 +30,9 @@ a few problems which results in:
 * Some shots are not shown except of the end explosion.
 * Sometimes the robot is not recognized and the shot flying over it.
 
-[![Youtube presentation video](http://img.youtube.com/vi/4hFU2bnblVc/0.jpg)](http://www.youtube.com/watch?v=4hFU2bnblVc)
+![Youtube presentation video](http://img.youtube.com/vi/4hFU2bnblVc/0.jpg)
+
+[Link to the video](http://www.youtube.com/watch?v=4hFU2bnblVc)
 
 
 ## Game Idea
