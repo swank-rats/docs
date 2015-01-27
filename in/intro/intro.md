@@ -24,6 +24,15 @@ university of applied science in Dornbirn.
 
 ![University of applied science](http://upload.wikimedia.org/wikipedia/de/thumb/6/62/Fachhochschule_Vorarlberg_logo.svg/200px-Fachhochschule_Vorarlberg_logo.svg.png)
 
+This movie shows the current development state which will be presented at the graduation date. The image processing has
+a few problems which results in:
+
+* Some shots are not shown except of the end explosion.
+* Sometimes the robot is not recognized and the shot flying over it.
+
+[![Youtube presentation video](http://img.youtube.com/vi/4hFU2bnblVc/0.jpg)](http://www.youtube.com/watch?v=4hFU2bnblVc)
+
+
 ## Game Idea
 
 Swank Rat is a rat fighter game. Two rats are trying to shoot each other with cheese. 
