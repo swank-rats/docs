@@ -14,29 +14,50 @@ The robot hardware is a composition of several parts:
   with the server and controls the wheels and motors. The software for this board is written in Phyton which provides a
   library to communicate with the Common IO of the main board. To connect with the LAN the board uses a WLAN-Dongle.
   
-![BeagleBoneBlack from above](robot/img/bbb)
+![BeagleBoneBlack from above](robot/img/bbb.jpg)
   
 * [Chassis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
   is powered by two electric motor and two wheels, which provides to corner sharply.
   
-![Chassis example picture](robot/img/chassis)
+![Chassis example picture bottom](robot/img/chassis)![Chassis example picture top](robot/img/ROB0005-3-900x600.jpg)
 
-* Engergy supply: For the energy supply we use 8 (TODO ???) batteries which provides directly the power for the motor
-  and supply the BeagleBone with 5V, over a [POWER SUPPLY CAPE](http://at.farnell.com/circuitco/power-supply-cape-for-bbb/power-supply-cape-beaglebone-board/dp/2399909). 
+* Engergy supply: For the energy supply we use 5 batteries which provides directly the power for the motor
+  and supply the BeagleBone with 4 Batteries (for example 5V).
 
 * [MotorControllerCape](https://github.com/Exadler/DualMotorControlCape): Expands the board with the ability to control
   motors over a simple library.
 
 ## Specification
 
-* TODO bbb
-* TODO motor
+* BeagleBone Black is a low-cost, community-supported development platform for developers and hobbyists.
+  Spetzifikations:
+  - Am335x 1GHz ARM Cortex-A8 Prozessor
+  - 12MB RAM
+  - 4GB Onboard eMMC Flash Speicher
+
+* Motor ![Motor Picture](robot/img/0467-900x600.jpg)
+  - Operating Voltage Range: 3~7.5V
+  - Rated Voltage: 6V
+  - Max. No-load Current(3V): 140 mA
+  - Max. No-load Current(6V): 170 mA
+  - No-load Speed(3V): 90 rpm
+  - No-load Speed(6V): 160 rpm
+  - Max. Output Torque: 0.8 kgf.cm
+  - Max. Stall Current: 2.8 A
+
+It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100).
 
 ## Schema
 
-* TODO schema
+* TODO schema![Schematics](robot/img/SwankRatsSchematics)
 
 ## Energy consumption
+
+### BeagleBone Black
+
+We measured 300mA current at 5V energy consumption. During booting it went up to 500mA Peak. 
+
+### Motors
 
 The library DMCC provides a little tool to monitor the current consumption of the linked motors.
 
