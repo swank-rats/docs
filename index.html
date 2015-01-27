@@ -65,7 +65,7 @@
                 <a href="mailto:michael.zangerle@students.fhv.at">Michael Zangerle</a>
             </h2>
                     </div>
-        <h3 class="date">2015-01-27 (ebfdc55)</h3>
+        <h3 class="date">2015-01-27 (a40ebd8)</h3>
         <h2 class="abstract">Abstract</h2>
         <p class="abstract">Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.</p>
     </header>
@@ -985,20 +985,20 @@ EOF</code></pre>
 <li>Download <a href="https://slproweb.com/products/Win32OpenSSL.html">OpenSSL Installer for Windows</a></li>
 <li>Run installer</li>
 <li>Add a new system environment variable. To do so open Control Panel -&gt; System -&gt; Advanced system settings -&gt; Environment variables.</li>
-<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;OPENSSL&quot; and path to e.g. &quot;C:&quot; (or to your new location) (with &quot;&quot; at the end!)</li>
+<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;OPENSSL&quot; and path to e.g. &quot;C:/OpenSSL/&quot; (or to your new location) (with &quot;/&quot; at the end!)</li>
 <li>OpenSSL installation is finished</li>
 <li>Install Poco C++ Libraries</li>
 <li>Download <a href="http://pocoproject.org/download/index.html">Poco C++ Libraries 1.5.4 (development version) all</a> - <a href="http://pocoproject.org/releases/poco-1.5.4/">direct link - download poco-1.5.4-all.zip</a></li>
-<li>Unpack the archive file to e.g. C:</li>
+<li>Unpack the archive file to e.g. C:/Poco</li>
 <li>Navigate to the folder</li>
 <li>Open the file &quot;components&quot; and remove &quot;CppUnit&quot;, &quot;Data&quot;, &quot;Data/SQLite&quot;, &quot;Data/ODBC&quot;, &quot;Data/MySQL&quot;, &quot;Zip&quot;</li>
-<li>You have to edit the path to your OpenSSL installation in the file &quot;buildwin.cmd&quot;, if it is not &quot;C:&quot;</li>
+<li>You have to edit the path to your OpenSSL installation in the file &quot;buildwin.cmd&quot;, if it is not &quot;C:/OpenSSL&quot;</li>
 <li>Double click build_vs120.cmd -&gt; this command will build the needed files</li>
-<li>Make sure that the folder e.g.&quot;C:&quot; contains a folder &quot;bin&quot; and &quot;lib&quot;.</li>
+<li>Make sure that the folder e.g.&quot;C:/Poco&quot; contains a folder &quot;bin&quot; and &quot;lib&quot;.</li>
 <li>Again add a new system environment variable.</li>
-<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;POCO&quot; and path to &quot;C:&quot; (or to your new location) (with &quot;&quot; at the end!)</li>
+<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;POCO&quot; and path to &quot;C:/Poco/&quot; (or to your new location) (with &quot;/&quot; at the end!)</li>
 <li>Edit the variable PATH</li>
-<li>Add &quot;C:&quot; at the end (between the last and the new entry must be a &quot;;&quot;!)</li>
+<li>Add &quot;C:/Poco/bin&quot; at the end (between the last and the new entry must be a &quot;;&quot;!)</li>
 <li>Poco installation is finished.</li>
 <li>Install OpenCV</li>
 <li>Download <a href="http://opencv.org/">OpenCV 2.4.9</a></li>
@@ -1006,8 +1006,8 @@ EOF</code></pre>
 <li>Copy all the files to the location where you want it to have on your compute</li>
 <li>OpenCV is already delivered with prebuild VS120 libs. So we have nothing to build.</li>
 <li>Again add a new system environment variable. To do so open Control Panel -&gt; System -&gt; Advanced system settings -&gt; Environment variables.</li>
-<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;OPENCV&quot; and path to e.g. &quot;C:&quot; (with &quot;&quot; at the end!). This is the path to the OpenCV installation including the folder &quot;build&quot;. The folder &quot;build&quot; must contain the folder &quot;include&quot; and &quot;x8612&quot;.</li>
-<li>Modify the PATH variable. Add &quot;%OPENCV%8612;&quot; (without &quot;) at the end of the value of your PATH variable.</li>
+<li>At system variables press the &quot;new&quot; button and add a variable with name &quot;OPENCV&quot; and path to e.g. &quot;C:/opencv/build/&quot; (with &quot;/&quot; at the end!). This is the path to the OpenCV installation including the folder &quot;build&quot;. The folder &quot;build&quot; must contain the folder &quot;include&quot; and &quot;x86/vc12/lib&quot;.</li>
+<li>Modify the PATH variable. Add &quot;%OPENCV%/x86/vc12/bin;&quot; (without &quot;) at the end of the value of your PATH variable.</li>
 <li>OpenCV installation is finished.,</li>
 <li>Clone this repository</li>
 <li>Open the solution with VS 2013</li>
