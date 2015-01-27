@@ -255,7 +255,7 @@ restart 100 times after crash or restart the system.
 
 This file is a example config file which is used on the robots.
 
- ```ini
+```ini
 [program:swank-rats]
 command=python /root/roboter-software/SwankRatsRoboterSoftware/Main.py
 directory=/root/roboter-software/SwankRatsRoboterSoftware
