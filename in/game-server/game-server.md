@@ -80,7 +80,7 @@ Below you can find an image of the general [lifecycle][1] of a game.
 
 ## Security
 
-To secure the game-server all connections uses SSL and the websockets have to use basic http authentication. Otherwise the connection will be canceled.
+To secure the game-server all connections use SSL and the websockets have to use basic http authentication. Otherwise the connection will be canceled. You can find more information about the communication and its security in the communication section.
 
 ## Connecting to the server
 All parties conncet to the node.js server via websockets. To register themselves they send 'init' in the cmd-parameter and node server takes care of the rest.
@@ -107,7 +107,7 @@ init: function(socket, params) {
 When a game is gets started all robots will receive a start message which tells the robot that it should execute all moving commands from now on. When a game is ended all robots will receive a end message which indicates that it should not do anything unless he receives a start message again.
 
 ### Imageserver
-When the image server established the connection it gets also stored in a variable along with some event listerns. The first listener gets called when the socket closes. The second listener gets called when a socket specific error occures.
+When the image server established the connection it gets also stored in a variable along with this some event listerns will be defined. The first listener gets called when the socket closes. The second listener gets called when a socket specific error occures.
 
 ```Javascript
 init: function(socket) {
