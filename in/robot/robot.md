@@ -30,12 +30,22 @@ The robot hardware is a composition of several parts:
 ## Specification
 
 * BeagleBone Black is a low-cost, community-supported development platform for developers and hobbyists.
-    Spetzifikations:
-    Am335x 1GHz ARM Cortex-A8 Prozessor
-    512MB RAM
-    4GB Onboard eMMC Flash Speicher
+  Spetzifikations:
+  - Am335x 1GHz ARM Cortex-A8 Prozessor
+  - 12MB RAM
+  - 4GB Onboard eMMC Flash Speicher
 
-* Motor
+* Motor ![Motor Picture](robot/img/0467-900x600.jpg)
+  - Operating Voltage Range: 3~7.5V
+  - Rated Voltage: 6V
+  - Max. No-load Current(3V): 140 mA
+  - Max. No-load Current(6V): 170 mA
+  - No-load Speed(3V): 90 rpm
+  - No-load Speed(6V): 160 rpm
+  - Max. Output Torque: 0.8 kgf.cm
+  - Max. Stall Current: 2.8 A
+
+    It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100). 
 
 ## Schema
 
