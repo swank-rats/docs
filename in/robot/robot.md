@@ -45,7 +45,7 @@ The robot hardware is a composition of several parts:
   - Max. Output Torque: 0.8 kgf.cm
   - Max. Stall Current: 2.8 A
 
-    It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100). 
+It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100).
 
 ## Schema
 
@@ -57,8 +57,8 @@ The robot hardware is a composition of several parts:
 
 We measured 300mA current at 5V energy consumption. During booting it went up to 500mA Peak. 
 
-
 ### Motors
+
 The library DMCC provides a little tool to monitor the current consumption of the linked motors.
 
 This output was produced when the robot drives with 40% which the highest possible level without exceed the current
