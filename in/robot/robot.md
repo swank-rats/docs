@@ -21,8 +21,8 @@ The robot hardware is a composition of several parts:
   
 ![Chassis example picture](robot/img/chassis)
 
-* Engergy supply: For the energy supply we use 8 (TODO ???) batteries which provides directly the power for the motor
-  and supply the BeagleBone with 5V, over a [POWER SUPPLY CAPE](http://at.farnell.com/circuitco/power-supply-cape-for-bbb/power-supply-cape-beaglebone-board/dp/2399909). 
+* Engergy supply: For the energy supply we use 5 batteries which provides directly the power for the motor
+  and supply the BeagleBone with 4 Batteries (for example 5V).
 
 * [MotorControllerCape](https://github.com/Exadler/DualMotorControlCape): Expands the board with the ability to control
   motors over a simple library.
