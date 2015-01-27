@@ -77,7 +77,7 @@ The following messages can be sent:
 	- Info about which player has which robot
 
 ### Video quality and resolution
-For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 720p resolution for the streaming. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. 
+For our project we use the webcam LifeCam HD-3000 from the manufacturer Microsoft. We decided to use 640X480 resolution for the streaming. This allows us to provide the clients a gaming environment in a today acceptable resolution without too much traffic through the transmission. 
 Therefore the system need following requirements
 
 * Intel Dual Core 3.0 GHz or higher
