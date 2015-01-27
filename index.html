@@ -65,7 +65,7 @@
                 <a href="mailto:michael.zangerle@students.fhv.at">Michael Zangerle</a>
             </h2>
                     </div>
-        <h3 class="date">2015-01-27 (883e1b8)</h3>
+        <h3 class="date">2015-01-27 (a37977c)</h3>
         <h2 class="abstract">Abstract</h2>
         <p class="abstract">Semester Project for course “S1 - Kopplung und Integration von heterogenen Systemen”.</p>
     </header>
@@ -811,7 +811,14 @@ DMCC.setMotor(<span class="dv">0</span>,<span class="dv">1</span>,<span class="d
 </ul>
 <p>Swank-Rats use it to automatic start and restart the robot script if it crashes. For this it is configured to try restart 100 times after crash or restart the system.</p>
 <p>This file is a example config file which is used on the robots.</p>
-<p><code>ini [program:swank-rats] command=python /root/roboter-software/SwankRatsRoboterSoftware/Main.py directory=/root/roboter-software/SwankRatsRoboterSoftware autostart=true autorestart=true startretries=100 stderr_logfile=/var/log/swank-rats.err.log stdout_logfile=/var/log/swank-rats.out.log</code></p>
+<pre class="sourceCode ini"><code class="sourceCode ini"><span class="kw">[program:swank-rats]</span>
+<span class="dt">command</span><span class="ot">=</span><span class="st">python /root/roboter-software/SwankRatsRoboterSoftware/Main.py</span>
+<span class="dt">directory</span><span class="ot">=</span><span class="st">/root/roboter-software/SwankRatsRoboterSoftware</span>
+<span class="dt">autostart</span><span class="ot">=</span><span class="kw">true</span>
+<span class="dt">autorestart</span><span class="ot">=</span><span class="kw">true</span>
+<span class="dt">startretries</span><span class="ot">=</span><span class="dv">100</span>
+<span class="dt">stderr_logfile</span><span class="ot">=</span><span class="st">/var/log/swank-rats.err.log</span>
+<span class="dt">stdout_logfile</span><span class="ot">=</span><span class="st">/var/log/swank-rats.out.log</span></code></pre>
 <p>To enable web we added this to the config file of supervisor (more informations under the install section).</p>
 <pre class="sourceCode ini"><code class="sourceCode ini"><span class="kw">[inet_http_server]</span>
 <span class="dt">port </span><span class="ot">=</span><span class="st"> </span><span class="dv">9001</span>
