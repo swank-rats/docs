@@ -19,7 +19,9 @@ The robot hardware is a composition of several parts:
 * [Chassis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
   is powered by two electric motor and two wheels, which provides to corner sharply.
   
-![Chassis example picture bottom](robot/img/chassis)![Chassis example picture top](robot/img/ROB0005-3-900x600.jpg)
+![Chassis example picture bottom](robot/img/chassis)
+
+![Chassis example picture top](robot/img/chassis_top)
 
 * Engergy supply: For the energy supply we use 5 batteries which provides directly the power for the motor
   and supply the BeagleBone with 4 Batteries (for example 5V).
@@ -30,7 +32,7 @@ The robot hardware is a composition of several parts:
 ## Specification
 
 * BeagleBone Black is a low-cost, community-supported development platform for developers and hobbyists.
-  Spetzifikations:
+    Spetzifikations:
   - Am335x 1GHz ARM Cortex-A8 Prozessor
   - 12MB RAM
   - 4GB Onboard eMMC Flash Speicher
@@ -49,7 +51,7 @@ It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&
 
 ## Schema
 
-* TODO schema![Schematics](robot/img/SwankRatsSchematics)
+![Schematics](robot/img/SwankRatsSchematics)
 
 ## Energy consumption
 
