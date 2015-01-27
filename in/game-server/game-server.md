@@ -1,7 +1,7 @@
 
 # Game-Server
 
-The game server is the core component of the swank-rats game and controlls and organizes all the other components and parties in the game.
+The game-server is the core component of the swank-rats game and controlls and organizes all the other components and parties in the game.
 
 ## Requirements client and server
 
