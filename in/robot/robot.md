@@ -157,6 +157,7 @@ DMCC.setMotor(0, 2, -7000)
 # turn off the motor
 DMCC.setMotor(0,1,0)
 ```
+
 ### State machine
 
 The state machine calculates the current speed of the motor left and right. Therefore the websocket library forward
@@ -238,3 +239,42 @@ class MessageParser:
 
         self.robot.set(self.currentState.getLeft(), self.currentState.getRight())
 ```
+
+## Supervisor
+
+Supervisor is a client/server system that allows its users to control a number of processes on UNIX-like operating
+systems. It was inspired by the following:
+
+* Convenience
+* Accuracy
+* Delegation
+* Process Groups
+
+Swank-Rats use it to automatic start and restart the robot script if it crashes. For this it is configured to try
+restart 100 times after crash or restart the system.
+
+This file is a example config file which is used on the robots.
+
+ ```ini
+[program:swank-rats]
+command=python /root/roboter-software/SwankRatsRoboterSoftware/Main.py
+directory=/root/roboter-software/SwankRatsRoboterSoftware
+autostart=true
+autorestart=true
+startretries=100
+stderr_logfile=/var/log/swank-rats.err.log
+stdout_logfile=/var/log/swank-rats.out.log
+```
+
+To enable web we added this to the config file of supervisor (more informations under the install section).
+
+```ini
+[inet_http_server]
+port = 9001
+username = admin
+password = admin
+```
+
+After a restart the web ui can be located for example at `http://192.168.43.242:9001/`:
+
+![Supervisor web ui](robot/img/supervisor)

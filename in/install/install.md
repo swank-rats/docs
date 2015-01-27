@@ -112,6 +112,21 @@ Library to communicate over Websocket.
 php install ws4py
 ```
 
+### Supervisor
+
+```bash
+apt-get install supervisor
+cp roboter-software/SwankRatsRoboterSoftware/swank-rats.conf /etc/supervisor/conf.d
+service supervisor restart
+
+cat > /etc/supervisor/supervisord.conf <<EOF
+[inet_http_server]
+port = 9001
+username = admin
+password = admin
+EOF
+```
+
 ### Troubleshooting
 
 1. ERROR: `mach/timex.h: No such file or directory`
