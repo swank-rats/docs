@@ -12,7 +12,7 @@ To run the control-software for the robot you have to install:
 
 ### WIFI (TP-Link TL-WN725N)
 
-This tutorial is inspired by: http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/
+This tutorial is inspired by: [http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/](http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/)
 
 Important: Run in __root__
 
@@ -23,7 +23,7 @@ apt-get update
 apt-get install linux-headers-$(uname -r)
 ```
 
-If the linux-header version does not exists search for deb file in http://rcn-ee.net/deb/precise-armhf.
+If the linux-header version does not exists search for deb file in [http://rcn-ee.net/deb/precise-armhf](http://rcn-ee.net/deb/precise-armhf).
 
 __Example:__
 
@@ -61,7 +61,7 @@ iwconfig
 reboot
 ```
 
-6. Install and Configure WPA-Supplicant
+6. Install and configure WPA-Supplicant
 
 ```bash
 apt-get install wpasupplicant
@@ -70,7 +70,7 @@ wpa_passphrase <ssid> <password> > /etc/wpa.config
 
 
 
-7. Add config to start script: App following to config file `/etc/network/interfaces`
+7. Add config to start script: Add following to config file `/etc/network/interfaces`
 
 ```
 auto wlan0
@@ -99,7 +99,7 @@ Library to control the motor-cape.
 
 ```bash
 git clone git://github.com/Exadler/DMCC_Library
-cd DMCC_Library/
+cd DMCC_Librahttp://rcn-ee.net/deb/precise-armhfry/
 make
 python setupDMCC.py install
 ```
