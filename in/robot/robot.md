@@ -36,7 +36,7 @@ The robot hardware is a composition of several parts:
   - 12MB RAM
   - 4GB Onboard eMMC Flash Speicher
 
-* Motor ![Motor Picture](robot/img/0467-900x600.jpg)
+* Motor
   - Operating Voltage Range: 3~7.5V
   - Rated Voltage: 6V
   - Max. No-load Current(3V): 140 mA
@@ -46,9 +46,13 @@ The robot hardware is a composition of several parts:
   - Max. Output Torque: 0.8 kgf.cm
   - Max. Stall Current: 2.8 A
 
+![Motor Picture](robot/img/0467-900x600.jpg)
+
 It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100).
 
 ## Schema
+
+See figure 26.
 
 ![Schematics](robot/img/SwankRatsSchematics)
 
@@ -140,7 +144,9 @@ Other useful methods to implement are:
    * `closed(code, reason=None) <ws4py.websocket.WebSocket.closed>` which is called whenever the WebSocket connection
      is terminated.
 
-You may want to know if the connection is currently usable or `terminated <ws4py.websocket.WebSocket.terminated>`.
+You may want to know if the connection is currently usable or 
+
+`terminated <ws4py.websocket.WebSocket.terminated>`.
 
 At that stage, the subclass is still not connected to any data source. The way ws4py is designed, you don't
 necessarily need a connected socket, in fact, you don't even need a socket at all.

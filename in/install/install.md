@@ -88,7 +88,7 @@ To run the control-software for the robot you have to install:
 
 ### WIFI (TP-Link TL-WN725N)
 
-This tutorial is inspired by: [http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/](http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/)
+This tutorial is inspired by [this tutorial](http://brilliantlyeasy.com/ubuntu-linux-tl-wn725n-tp-link-version-2-wifi-driver-install/)
 
 Important: Run in __root__
 
@@ -104,7 +104,8 @@ If the linux-header version does not exists search for deb file in [http://rcn-e
 __Example:__
 
 ```bash
-wget http://rcn-ee.net/deb/trusty-armhf/v$(uname -r)/linux-headers-$(uname -r)_1.0trusty_armhf.deb
+wget http://rcn-ee.net/deb/trusty-armhf/v
+	$(uname -r)/linux-headers-$(uname -r)_1.0trusty_armhf.deb
 dpkg -i linux-headers-$(uname -r)_1.0trusty_armhf.deb
 ```
 
@@ -233,7 +234,7 @@ It is necessary to add new system environment variables. So do not close the win
   4. At system variables press the "new" button and add a variable with name "OPENSSL" and path to e.g. "C:/OpenSSL/" (or to your new location) (with "/" at the end!)
   5. OpenSSL installation is finished
 
- ### Install Poco C++ Libraries
+### Install Poco C++ Libraries
  
   1. Download [Poco C++ Libraries 1.5.4 (development version) all](http://pocoproject.org/download/index.html) - [direct link - download poco-1.5.4-all.zip](http://pocoproject.org/releases/poco-1.5.4/)
   2. Unpack the archive file to e.g. C:/Poco
@@ -257,13 +258,16 @@ It is necessary to add new system environment variables. So do not close the win
   5. Again add a new system environment variable. To do so open Control Panel -> System -> Advanced system settings -> Environment variables.
   6. At system variables press the "new" button and add a variable with name "OPENCV" and path to e.g. "C:/opencv/build/" (with "/" at the end!). This is the path to the OpenCV installation including the folder "build". The folder "build" must contain the folder "include" and "x86/vc12/lib".
   7. Modify the PATH variable. Add "%OPENCV%/x86/vc12/bin;" (without ") at the end of the value of your PATH variable.
-  8. OpenCV installation is finished.,
-3. Clone this repository
-4. Open the solution with VS 2013
-5. Build the project
-6. Click right on the solution and go to -> properties -> debugging -> additional command line parameters
-7. add /uri=ws://127.0.0.1:3001/ where the IP and port should be the address of the NodeJS server
-6. Finish - now you can run the application!
+  8. OpenCV installation is finished.
+  
+### Project setup
+
+  1. [Clone repository](https://github.com/swank-rats/image-processing)
+  2. Open the solution with VS 2013
+  3. Build the project
+  4. Click right on the solution and go to -> properties -> debugging -> additional command line parameters
+  5. add /uri=ws://127.0.0.1:3001/ where the IP and port should be the address of the NodeJS server
+  6. Finish - now you can run the application!
 
 ### Troubleshooting
 
@@ -284,7 +288,7 @@ It is necessary to add new system environment variables. So do not close the win
 
 When you run the .exe manually do not forget to pass the /uri parameter. 
 
-```
+```bash
 //to get help:
 image-processing.exe /help
 
