@@ -4,7 +4,7 @@
 The meeple is a real robot which moves in the real world pitch. It is controlled by a person on the browser. In this
 chapter this robot will be described in more detail.
 
-TODO picture of real robot
+![Robot](robot/img/robot.jpg)
 
 ## Hardware
 
