@@ -1,27 +1,29 @@
 
 # Appendix
 
-## Get the Bone in the internet
+## Get the Beagle Bone into the Internet
 
-This will tell you how to connect the beaglebone to the internet.
-There are three possibilities how to achieve that goal
+In this section we will tell you how to connect a beaglebone to the Internet.
+There are three possibilities how to achieve this goal.
 
-### Easy
+### Via lan (easy)
 
-1. Connect an ethernet cable with your bone and the other end with your router.
+1. Connect an ethernet cable with your beagle bone and the other end with your router.
 2. You're done.
 
-### There is only WIFI or It's not that easy
+### Via a bridged wireless lan (not that easy)
  
-__Requirements:__ Computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable
+__Requirements:__ 
+* a computer which is connected via WIFI to the Internet 
+* a free Ethernet Port and a ethernet cable
 
-1. On the host computer (the computer whose Internet connection you plan to share) open Network Connections by clicking the Start button Picture of the Start button, and then clicking Control Panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.	
+1. On the host computer (the computer whose Internet connection you plan to share) open the network connections by navigating to the controll panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.	
 2. Select your WIFI and your LAN adapter by holding CTRL and clicking on both.
 3. Right click on the second and choose "Bridge Connection"
-4. Connect an Ethernet cable with your bone and the other end with your router.
+4. Connect an ethernet cable with your beagle bone and the other end with your computer.
 5. You're done
 
-### Eduroam Wlan-Network
+### Via Eduroam wireless lan (not easy at all)
 
 __Step 0__
 ```bash
@@ -59,9 +61,9 @@ wpa_supplicant -i $WLAN -D wext -c /etc/wpa_supplicant/wpa_supplicant.conf&
 
 __Note:__
 
-* Insted of $WLAN type your interface name.
+* Instead of $WLAN type your interface name.
 * To view the name type iwconfig
-* Wait until the authentication is completed.
+* Wait until the authentication has been finished.
 * To receive an IP address type: dhclient
 
 To view if you are connected type:
@@ -80,7 +82,7 @@ chmod +x eduroam-linux-Fachhochschule_Vorarlberg.sh
 wpa_supplicant -i wlan0 -D wext -c /root/.eduroam/eduroam.conf&
 ```
 
-### Why should I use another cable?
+### Via usb cable
 
 This method creates a default route on the beaglebone which can cause errors with other networks!
 Try an other solution first!
@@ -102,7 +104,7 @@ iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 iptables --append FORWARD --in-interface eth3 -j ACCEPT
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
-	* running Windows: follow this [Tutorial](http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7) change the IP-Adress of your USB-Networkadapter to the old "172.168.7.1"
+	* running Windows: follow this [Tutorial](http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7) change the IP adress of your USB-Networkadapter to the old "172.168.7.1"
 4. You're done
 
 ## Reflash BBB
@@ -110,7 +112,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 * Download Image (that works with WLAN-Dongle): [http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz](http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz).
 * Follow this instructions to copy image to an SD-Card.
 * Insert SD-Card when BBB is unplugged
-* Press following Button and plugin BBB with a Smartphone-Charger (more power than PC)
+* Press following button and plugin BBB with a smartphone-charger (more power than PC)
 
 ![Boot-Switch button](appendix/img/flash-button.jpeg)
 
@@ -118,6 +120,6 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 * Wait about 25-45min while the BBB will be flashed
 * Once it's done, the bank of 4 LED's to the right of the Ethernet will all stay lit up at the same time. You can then power down your BeagleBone Black and remove SD-Card.
 
-The appropriate linux-headers can be found under: [http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb](http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb)
+The appropriate linux-headers can be found here: [http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb](http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb)
 
-Detailed information can be found under [https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview](https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview)
+Detailed information can be found here: [https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview](https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview)
