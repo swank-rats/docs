@@ -33,7 +33,7 @@ If a robot is hit (one or more) the game is over.
 
 ## Architecture
 
-![Architecture of Swank-Rats](intro/img/architecture)
+![Architecture of Swank-Rats](https://github.com/swank-rats/docs/blob/master/in/intro/img/architecture.png)
 
 ### Hardware
 
