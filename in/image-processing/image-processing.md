@@ -95,12 +95,12 @@ The other image features of the webcam are
 * 24-bit color depth
 
 ## Architecture
-The below shown figure illustrates the component diagram of our program with the corresponding components and their package distribution and the relations between them.
+Figure 6 illustrates the component diagram of our program with the corresponding components and their package distribution and the relations between them.
 
 ![component diagram](image-processing/img/KompImg)
 
 ### Simulation Shot
-The below shown figure illustrates how a the shot simulation process is done.
+Figure 7 illustrates how a the shot simulation process is done.
 
 ![sequence diagram shot](image-processing/img/Shot)
 
@@ -129,11 +129,11 @@ It rearrange the geometry of RGB in an attempt to be more intuitive and perceptu
 by mapping the values into a cylinder loosely inspired by a traditional color wheel. The angle around the central vertical axis corresponds to "hue" and the distance from the axis corresponds to "saturation". 
 Perceived luminance is a notoriously difficult aspect of color to represent in a digital format (see disadvantages section), and this has given rise to two systems attempting to solve this issue:
 Both of these representations are used widely in computer graphics, but both are also criticized for not adequately separating color-making attributes, and for their lack of perceptual uniformity.
-Figure 7 show this HSV model
+Figure 8 show this HSV model
  
 ![HSV model](image-processing/img/hsv_models)
 
-In figure 8 and figure 9 you can see the detection result of our HSV detection. In the first figure 8 you see the original image and the figure 9 then shows our detection result which detect blue forms.
+In figure 9 and figure 10 you can see the detection result of our HSV detection. In the first figure 9 you see the original image and the figure 10 then shows our detection result which detect blue forms.
 
 ![HSV detection original image](image-processing/img/colored_squares)
 
@@ -142,7 +142,7 @@ In figure 8 and figure 9 you can see the detection result of our HSV detection. 
 #### Contour detection with marker
 We also tried to detect the object via its contours.
 To realize this we first tried various geometry forms and tried to recognize them by there contours.
-On figure 10 you see the original image and on figure 11 the detection results.
+On figure 11 you see the original image and on figure 12 the detection results.
 
 ![Rectangle model](image-processing/img/colored_squares)
 
@@ -150,7 +150,7 @@ On figure 10 you see the original image and on figure 11 the detection results.
 
 In order to bring more security in the contour detection, we have decided to replace the simple contours by nested contours.
 This enables us to detect the object more error-free and more stable then with simple contours.
-Figure 12 and figure 13 show the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
+Figure 13 and figure 14 show the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
 
 ![Rectangle model nested](image-processing/img/originalImageNestedDetection)
 
@@ -377,7 +377,7 @@ else
 
 During our project we had the problem that our webcam streaming was very slow. After hours of searching we found out that one reason for the problem was that our object detection recognition was to slow.
 So we started a performance measurement were we measured each method call. By this time measurement, we found out that the most time of our object recognition is needed by OpenCV methods like cvtColor, blur, findContours and so on.
-On figure 14 you can see the results of this measurement.
+On figure 15 you can see the results of this measurement.
 
 ![image processing time](image-processing/img/imageProcessingTime.jpg)
 
@@ -387,7 +387,7 @@ According to this knowledge we have tried to improve the image processing. We en
 ## WebSocket communication
 
 ### Connection establishment
-The image processing server contacts the game server. The IP address of the game server is passed as command line argument.
+The image processing server contacts the game server. The IP address of the game server is passed as command line argument. See figure 16.
 
 ![Image processing server command line arguments](image-processing/img/commandline)
 
@@ -457,13 +457,13 @@ out.write(reinterpret_cast<const char*>(buf.data()), buf.size());
 ....
 ```
 
-Figure 16 shows the performance improvement.
+Figure 18 shows the performance improvement.
 
 ![Stream output improvement](image-processing/img/mjpg_output_imrpovment)
 
 ### Traffic
 
-Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred. See figure 17 for one measurement result.
+Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred. See figure 19 for one measurement result.
 
 ![Screenshot of one measurement result](image-processing/img/MJPEGstream_client)
 
@@ -473,13 +473,13 @@ The simulation of throwing a cheese is done by overlay the webcam stream with th
 1. Cheese-throwing-animation: to simulate a flying cheese beginning at the robot and ending at the calculated end position
 2. Hit-animation: when the flying cheese reaches the end position a explosion is simulated
 
-The following image illustrated all three states.
+Figure 20 illustrated both states.
 
 ![Cheese-throw simulation states](image-processing/img/Shot_animation)
 
 A simulation is started if the game server tells the image processing server that a cheese was thrown by a player. We can then determine the start and end point of a cheese-throw simulation, since we know the position and the viewing direction of the throwing player and by the fact that we are only simulating straightly throws. The simulation is immediately started with the next occurring webcam frame and therefore also immediately visible for the clients. The decision, if a player or a wall was hit by the cheese is done when the simulation reached the end point. So we can ensure that the other player gets the chance to avoid a collision with the cheese. 
 
-The calculations for a simulation is not that complicated since the start and end point can be interpreted as a right-angled triangle, as the following image illustrates.
+The calculations for a simulation is not that complicated since the start and end point can be interpreted as a right-angled triangle, as figure 21 illustrates.
 
 ![Cheese-throw simulation right-angled trigangle](image-processing/img/Shot_rect)
 
@@ -499,7 +499,7 @@ By doing it this way we do not have to consider the direction in detail since th
 * start point x = end point x: next point x = start point x; a = 0
 * start point y = end point y: next point y = start point y; b = 0
 
-This makes sure that all throw directions were possible without any additional magic in the code. Figure 20 illustrates all directions.
+This makes sure that all throw directions were possible without any additional magic in the code. Figure 22 illustrates all directions.
 
 ![Cheese-throw directions](image-processing/img/Shot_area)
 
