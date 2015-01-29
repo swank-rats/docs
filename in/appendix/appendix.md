@@ -1,7 +1,7 @@
 
 # Appendix
 
-## Get the Bone in the internet
+## Get the Beagle Bone into the Internet
 
 In this section we will tell you how to connect a beaglebone to the Internet.
 There are three possibilities how to achieve this goal.
