@@ -11,15 +11,16 @@ There are three possibilities how to achieve this goal.
 1. Connect an ethernet cable with your beagle bone and the other end with your router.
 2. You're done.
 
-### Via wireless lan (not that easy)
+### Via a bridged wireless lan (not that easy)
  
 __Requirements:__ 
-* a computer which can connect to the WIFI and with a free Ethernet Port Ethernet Cable
+* a computer which is connected via WIFI to the Internet 
+* a free Ethernet Port and a ethernet cable
 
-1. On the host computer (the computer whose Internet connection you plan to share) open Network Connections by clicking the Start button Picture of the Start button, and then clicking Control Panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.	
+1. On the host computer (the computer whose Internet connection you plan to share) open the network connections by navigating to the controll panel. In the search box, type adapter, and then, under Network and Sharing Center, click View network connections.	
 2. Select your WIFI and your LAN adapter by holding CTRL and clicking on both.
 3. Right click on the second and choose "Bridge Connection"
-4. Connect an Ethernet cable with your bone and the other end with your router.
+4. Connect an ethernet cable with your beagle bone and the other end with your computer.
 5. You're done
 
 ### Via Eduroam wireless lan (not easy at all)
@@ -81,7 +82,7 @@ chmod +x eduroam-linux-Fachhochschule_Vorarlberg.sh
 wpa_supplicant -i wlan0 -D wext -c /root/.eduroam/eduroam.conf&
 ```
 
-### Why should I use another cable?
+### Via usb cable
 
 This method creates a default route on the beaglebone which can cause errors with other networks!
 Try an other solution first!
@@ -103,7 +104,7 @@ iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 iptables --append FORWARD --in-interface eth3 -j ACCEPT
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
-	* running Windows: follow this [Tutorial](http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7) change the IP-Adress of your USB-Networkadapter to the old "172.168.7.1"
+	* running Windows: follow this [Tutorial](http://windows.microsoft.com/en-us/windows/set-internet-connection-sharing#1TC=windows-7) change the IP adress of your USB-Networkadapter to the old "172.168.7.1"
 4. You're done
 
 ## Reflash BBB
