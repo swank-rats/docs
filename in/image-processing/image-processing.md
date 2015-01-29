@@ -94,10 +94,12 @@ The other image features of the webcam are
 
 ## Architecture
 The below shown figure illustrates the component diagram of our program with the corresponding components and their package distribution and the relations between them.
+
 ![component diagram](image-processing/img/KompImg)
 
 ### Simulation Shot
 The below shown figure illustrates how a the shot simulation process is done.
+
 ![sequence diagram shot](image-processing/img/Shot)
 
 ## Object detection
@@ -214,12 +216,14 @@ threshold(canny_output, canny_output, 128, 255, CV_THRESH_BINARY);
 
 For the circle marker detection we must call the following method before we search after the contours because the standard findContours method can not find circles.
 ```C++
-HoughCircles(src_graydetect2, circles, CV_HOUGH_GRADIENT, 1, src_graydetect2.rows / 8, 60, 30, 0, 0);
+HoughCircles(src_graydetect2, circles, CV_HOUGH_GRADIENT, 1, 
+				src_graydetect2.rows / 8, 60, 30, 0, 0);
 ```
 
 After all this preparation steps we call the find contours method which returns all founded contours.
 ```C++
-findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+findContours(canny_output, contours, hierarchy, CV_RETR_TREE,
+				CV_CHAIN_APPROX_SIMPLE);
 ```
 __Contours:__ Detected contours. Each contour is stored as a vector of points.
 __Hierarchy:__ Optional output vector, containing information about the image topology. 
@@ -451,13 +455,13 @@ out.write(reinterpret_cast<const char*>(buf.data()), buf.size());
 ....
 ```
 
-The following figure shows the performance improvement.
+Figure 16 shows the performance improvement.
 
 ![Stream output improvement](image-processing/img/mjpg_output_imrpovment)
 
 ### Traffic
 
-Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred.
+Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred. See figure 17 for one measurement result.
 
 ![Screenshot of one measurement result](image-processing/img/MJPEGstream_client)
 
@@ -493,7 +497,7 @@ By doing it this way we do not have to consider the direction in detail since th
 * start point x = end point x: next point x = start point x; a = 0
 * start point y = end point y: next point y = start point y; b = 0
 
-This makes sure that all throw directions were possible without any additional magic in the code. The following image illustrates all directions.
+This makes sure that all throw directions were possible without any additional magic in the code. Figure 20 illustrates all directions.
 
 ![Cheese-throw directions](image-processing/img/Shot_area)
 
