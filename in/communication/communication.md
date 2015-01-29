@@ -1,21 +1,21 @@
 
 # Communication
 
-For the communication the system uses Websocket on all stations. The protocol we use is self-defined and for designed
+For the communication the system uses WebSocket on all stations. The protocol we use is self-defined and designed
 for our usage. But it is fully unit tested and it will provided by npm for third party usage.
 
-## Websockets
+## WebSocket
 
-Websockets is a tcp based protocol which provides a bidirectional connection between a client and a server.
-Originally it is developed for real-time communication between web-server and browser.
+WebSocket is a TCP based protocol which provides a bidirectional connection between a client and a server.
+Originally it is developed for real-time communication between web server and browser.
 
-Websockets uses the Upgrade mechanism of HTTP 1.1.
+WebSocket uses the upgrade mechanism of HTTP 1.1.
 
 ### Handshake
 
-Before a Websocket Connection will be opened a HTTP request will be executed.
+Before a WebSocket connection will be opened a HTTP request will be executed.
 
-![Websocket handshake](http://presentation.asapo.at/websocket/img/websocket.png)
+![WebSocket handshake](http://presentation.asapo.at/websocket/img/websocket.png)
 
 The request is nearly normal HTTP but there are some additional headers.
 
@@ -32,7 +32,7 @@ Sec-WebSocket-Extensions: x-webkit-deflate-message, x-custom-extension
 ```
 
 __Connection: Upgrade and Upgrade: websocket__
-Request to perform an upgrade to Websocket protocol
+Request to perform an upgrade to WebSocket protocol
 
 __Sec-WebSocket-Version: 13__
 WebSocket protocol version used by the client
@@ -58,7 +58,7 @@ Sec-WebSocket-Protocol: chat
 Sec-WebSocket-Extensions: x-custom-extension
 ```
 
-The connection stays open and the server or client can send over the open tcp connections.
+The connection stays open and the server or client can send data over the open TCP connections.
 
 ### Data protocol
 
@@ -70,11 +70,11 @@ Full description under [http://presentation.asapo.at/websocket](http://presentat
 
 ## Application protocol
 
-The defined protocol uses json-encoded objects. These objects can be send in UTF-8 strings. The protocol and the
-library are able to delegate messages to a defined handler. The listener will defined in the property `to`. The
+The defined protocol uses JSON-encoded objects. These objects can be send in UTF-8 strings. The protocol and the
+library are able to delegate messages to a defined handler. The listener will be defined in the property `to`. The
 property `cmd` defines which function will be called for the given listener.
 
-__Example Message:__
+__Example message:__
 
 ```javascript
 {
@@ -87,7 +87,7 @@ __Example Message:__
 }
 ```
 
-__Example Listener:__
+__Example listener:__
 
 ```javascript
 var echoListener = {
@@ -119,3 +119,7 @@ __Properties:__
 __Remark:__ If no `cmd` is defined a `default` callback on the listener is called.
 
 The communication library is only full implemented for the node.js server. The clients uses the raw JSON-string.
+
+## Traffic
+
+Each packet has a size between 30 to 60 bytes. But 20 bytes of the packets are overhead caused by JSON and the protocol design ("to", "cmd",...). 

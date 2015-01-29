@@ -16,22 +16,29 @@ abstract: '{% include 'abstract.md' %}'
 
 # Introduction
 
-TODO fancy description of project
+Swank-Rats is a mulitplayer, realtime, augmentmented reality, browser based, distributed and platform independent game. Which combines modern technologies and communication systems.
+
+It was developed by a team of 5 people in the master course "S1: Coupling and Integration of Heterogeneous Systems" at [University of Applied Sciences Vorarlberg](http://www.fhv.at) in Dornbirn, Austria.
+
+![University of applied science](http://upload.wikimedia.org/wikipedia/de/thumb/6/62/Fachhochschule_Vorarlberg_logo.svg/200px-Fachhochschule_Vorarlberg_logo.svg.png)
+
+The following movie shows the current development state which will be presented at the graduation date. The image processing has
+a few problems which results in:
+
+* Some shots are not shown except of the end explosion.
+* Sometimes the robot is not recognized which causes in faulty shot simulations.
+* The live stream laggs sometimes
+
+![[Youtube presentation video](http://www.youtube.com/watch?v=4hFU2bnblVc)](http://img.youtube.com/vi/4hFU2bnblVc/0.jpg)
 
 ## Game Idea
 
-Swank Rat is a rat fighter game. Two rats are trying to shoot each other with cheese. 
-The rats are represented by robots which are controlled by two players. With a Camera
-over the Game-World can the software "see" where the rats are. In addition, the obstacles
-are detected over this camera. This obstacles are straight walls (e.g. wood slates with
-a red with a red mark). The Rats are able to throw pieces of cheese after the opponent.
-The walls serve as a limitation for the cheese-bullets.
+Swank-Rats is a rat fighter game. Two rats are trying to shoot each other with cheese. 
+The rats are represented by robots which are controlled by two players. A camera is mounted above the game world, which offers the possibility to detect the rats position and to provide a live stream to the clients. It is also possible to detect obstacles like straight walls (e.g. wood slates). The walls serve as a limitation for the cheese-bullets.
 
-To control the robots the live video of the world (overlaid with video of the cheese-bullets)
-will be displayed in a HTML UI in the browser. With buttons (and keyboard shortcuts) can
-the player control the real robot.
+The clients can see the robots via a live stream of the world displayed in a HTML UI in their browser. With buttons and keyboard shortcuts the player can control the real robot. 
  
-If a robot is hit (one or more) the game is over.
+If a robot is hit one or more times the game is over.
 
 ## Architecture
 
@@ -39,47 +46,47 @@ If a robot is hit (one or more) the game is over.
 
 ### Hardware
 
-* 2 x "Rat-Robot" with WLAN Dongles to communicate with the server
-* 1 x Webcamera (for the detection of position and world)
-* 1 x Server (Notebook or PC for image processing and game logic)
-* 2 x Clients (Notebooks with modern Browsers)
+* 2 x rat robot with WLAN dongles to communicate with the server
+* 1 x Webcam for displaying the world and image processing like robot position detection,...
+* 1 x Server (notebook or personal computer for image processing and game logic)
+* 2 x Clients (notebooks or personal computer with modern browsers)
 
 ### Server-Software
 
-* Server Application (Java)
+* Server Application (C++)
 	- Image processing
 	- Position detection
-	- Overlay webcam video with cheese-bullets
-	- Stream video for client
-* NodeJS Server
+	- Overlay webcam stream with cheese-bullets
+	- Offer webcam live stream to client
+* Node.js Server
 	- Robot control
 	- Server UI (HTML)
 	- User management
 
 ### Client
 
-* Browser Application
+* Browser application
 	- HTML5
 	- Presentation of game stream
-	- Javascript with Websockets
+	- JavaScript with WebSockets
 	- Buttons to control robot
 	- Login
 	- ...
 
 ## Communication
 
-For the communication we use Websockets. This TCP-based protocol provides bidirectional connections between all stations
-of our infrastructure and is well supported by all languages.
+For the communication we use WebSockets. This TCP-based protocol provides bidirectional connections between all stations
+of our infrastructure and is well supported by our used programming languages.
 
 ### Used Libraries
 
-* Phyton uses the [ws4py](https://ws4py.readthedocs.org/en/latest) (Websocket for Phyton) library
-* Node-JS uses the minimalistic implementation of Websocket Protocol [ws](https://github.com/einaros/ws) (websocket)
-* C++ uses [POCO](http://pocoproject.org/documentation/index.html) which provides the Websocket implementation 
-* JavaScript in Browser uses the nativ Websocket API ([Tutorial](http://www.html5rocks.com/de/tutorials/websockets/basics/)) of the browser
+* Phyton uses the [ws4py](https://ws4py.readthedocs.org/en/latest) (WebSocket for Phyton) library
+* Node.js uses the minimalistic implementation of WebSocket protocol [ws](https://github.com/einaros/ws) (websocket)
+* C++ uses [POCO](http://pocoproject.org/documentation/index.html) which provides the WebSocket implementation 
+* JavaScript in browser uses the nativ WebSocket API ([Tutorial](http://www.html5rocks.com/de/tutorials/websockets/basics/)) of the browser
 
 ### Protocol
 
-For communication between the stations we use asyncronous json-messages with a specific structure this structure is
-implemented for Node.JS in a Open Source module [Websocket-Wrapper](https://github.com/swank-rats/websocket-wrapper). The implementation
+For communication between the stations we use asyncronous JSON messages with a specific structure this structure is
+implemented for Node.js in a open source module [WebSocket-Wrapper](https://github.com/swank-rats/websocket-wrapper). The implementation
 of this module is part of this project.

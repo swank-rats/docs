@@ -4,7 +4,7 @@
 The meeple is a real robot which moves in the real world pitch. It is controlled by a person on the browser. In this
 chapter this robot will be described in more detail.
 
-TODO picture of real robot
+![Robot](robot/img/robot.jpg)
 
 ## Hardware
 
@@ -14,29 +14,52 @@ The robot hardware is a composition of several parts:
   with the server and controls the wheels and motors. The software for this board is written in Phyton which provides a
   library to communicate with the Common IO of the main board. To connect with the LAN the board uses a WLAN-Dongle.
   
-![BeagleBoneBlack from above](robot/img/bbb)
+![BeagleBoneBlack from above](robot/img/bbb.jpg)
   
-* [Chasis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
+* [Chassis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
   is powered by two electric motor and two wheels, which provides to corner sharply.
   
-![Chassis example picture](robot/img/chassis)
+![Chassis example picture bottom](robot/img/chassis)
 
-* Engergy supply: For the energy supply we use 8 (TODO ???) batteries which provides directly the power for the motor
-  and supply the BeagleBone with 5V, over a [POWER SUPPLY CAPE](http://at.farnell.com/circuitco/power-supply-cape-for-bbb/power-supply-cape-beaglebone-board/dp/2399909). 
+![Chassis example picture top](robot/img/chassis_top)
+
+* Engergy supply: For the energy supply we use 5 batteries which provides directly the power for the motor
+  and supply the BeagleBone with 4 Batteries (for example 5V).
 
 * [MotorControllerCape](https://github.com/Exadler/DualMotorControlCape): Expands the board with the ability to control
   motors over a simple library.
 
 ## Specification
 
-* TODO bbb
-* TODO motor
+* BeagleBone Black is a low-cost, community-supported development platform for developers and hobbyists.
+    Spetzifikations:
+  - Am335x 1GHz ARM Cortex-A8 Prozessor
+  - 12MB RAM
+  - 4GB Onboard eMMC Flash Speicher
+
+* Motor ![Motor Picture](robot/img/0467-900x600.jpg)
+  - Operating Voltage Range: 3~7.5V
+  - Rated Voltage: 6V
+  - Max. No-load Current(3V): 140 mA
+  - Max. No-load Current(6V): 170 mA
+  - No-load Speed(3V): 90 rpm
+  - No-load Speed(6V): 160 rpm
+  - Max. Output Torque: 0.8 kgf.cm
+  - Max. Stall Current: 2.8 A
+
+It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&path=47&product_id=100).
 
 ## Schema
 
-* TODO schema
+![Schematics](robot/img/SwankRatsSchematics)
 
 ## Energy consumption
+
+### BeagleBone Black
+
+We measured 300mA current at 5V energy consumption. During booting it went up to 500mA Peak. 
+
+### Motors
 
 The library DMCC provides a little tool to monitor the current consumption of the linked motors.
 
@@ -125,7 +148,6 @@ necessarily a connected socket, in fact, you don't even need a socket at all.
 
 
 ```python
-
 >>> from ws4py.messaging import TextMessage
 >>> def data_source():
 >>>     yield TextMessage(u'hello world')
@@ -157,6 +179,7 @@ DMCC.setMotor(0, 2, -7000)
 # turn off the motor
 DMCC.setMotor(0,1,0)
 ```
+
 ### State machine
 
 The state machine calculates the current speed of the motor left and right. Therefore the websocket library forward
@@ -238,3 +261,42 @@ class MessageParser:
 
         self.robot.set(self.currentState.getLeft(), self.currentState.getRight())
 ```
+
+## Supervisor
+
+Supervisor is a client/server system that allows its users to control a number of processes on UNIX-like operating
+systems. It was inspired by the following:
+
+* Convenience
+* Accuracy
+* Delegation
+* Process Groups
+
+Swank-Rats use it to automatic start and restart the robot script if it crashes. For this it is configured to try
+restart 100 times after crash or restart the system.
+
+This file is a example config file which is used on the robots.
+
+```ini
+[program:swank-rats]
+command=python /root/roboter-software/SwankRatsRoboterSoftware/Main.py
+directory=/root/roboter-software/SwankRatsRoboterSoftware
+autostart=true
+autorestart=true
+startretries=100
+stderr_logfile=/var/log/swank-rats.err.log
+stdout_logfile=/var/log/swank-rats.out.log
+```
+
+To enable web we added this to the config file of supervisor (more informations under the install section).
+
+```ini
+[inet_http_server]
+port = 9001
+username = admin
+password = admin
+```
+
+After a restart the web ui can be located for example at `http://192.168.43.242:9001/`:
+
+![Supervisor web ui](robot/img/supervisor)
