@@ -109,7 +109,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ## Reflash BBB
 
-* Download Image (that works with WLAN-Dongle): [http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz](http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz).
+* [Download Image (that works with WLAN-Dongle)](http://debian.beagleboard.org/images/BBB-eMMC-flasher-debian-7.4-2014-04-23-2gb.img.xz).
 * Follow this instructions to copy image to an SD-Card.
 * Insert SD-Card when BBB is unplugged
 * Press following button and plugin BBB with a smartphone-charger (more power than PC)
@@ -120,6 +120,6 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 * Wait about 25-45min while the BBB will be flashed
 * Once it's done, the bank of 4 LED's to the right of the Ethernet will all stay lit up at the same time. You can then power down your BeagleBone Black and remove SD-Card.
 
-The appropriate linux-headers can be found here: [http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb](http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb)
+The appropriate linux-headers can be found [here](http://rcn-ee.net/deb/wheezy-armhf/v3.8.13-bone47/linux-headers-3.8.13-bone47_1.0wheezy_armhf.deb).
 
-Detailed information can be found here: [https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview](https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview)
+Detailed information can be found [here](https://learn.adafruit.com/beaglebone-black-installing-operating-systems/overview).
