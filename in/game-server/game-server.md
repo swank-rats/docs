@@ -58,7 +58,7 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
    To start a game a defined number of players (in our case two) is needed. This means the first player which gets to the games page will have to choose a color and start a new game. The second one can join the game after choosing a color. This means when no game is ready one has to be created. When a game in the ready status exists, players can join the game as long as the maximum number is reached. When the maximum is reached no player can join the game anymore. For the players which joined it the game will now start.
 
 2. During a game:
-   Each player can controll a robot with the keys mentioned above and he can shoot cheese bullets at the other player by pressing the L key. You can find more information about the controlls in the [game controlls](https://github.com/swank-rats/docs/blob/master/game/02_game_controlls.md) section.
+   Each player can controll a robot with the keys mentioned above and he can shoot cheese bullets at the other player by pressing the L key. You can find more information about the controlls in the game controlls section.
 
   * Gameplay:
     The goal of the game is to reduce the lifepoints of the opponents by shooting him with the cheese bullets. This means when at least two players have lifepoints left the game will continue. The amount of lifepoints and the damage caused by cheesebullets should be configurated in the config-file. Also the multiplicator for fast wins in the highscore calculation should be configured there.
@@ -72,11 +72,9 @@ With the 'L' the player can shoot. As long as the keys are pressed the robot wil
 4. After the game:
    Is a game finished both players see a message and will then be redirected to the highscore page. The game itself will be set on finished and a new game can be started.
 
-[1]: game-server/images/lifecycle.png "Lifecycle of a game"
+Below you can find an image of the general lifecycle of a game.
 
-Below you can find an image of the general [lifecycle][1] of a game.
-
-![lifecycle][1]
+![Lifecycle of a game][game-server/images/lifecycle.png]
 
 ## Security
 
