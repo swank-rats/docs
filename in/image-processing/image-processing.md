@@ -93,11 +93,11 @@ The other image features of the webcam are
 *24-bit color depth
 
 ## Architecture
-The below shown figure x illustrates the component diagram of our program with the corresponding components and their package distribution and the relations of them.
+The below shown figure illustrates the component diagram of our program with the corresponding components and their package distribution and the relations of them.
 ![component diagram](image-processing/img/KompImg)
 
 ### Simulation Shot
-The below shown figure x illustrates how a the shot simulation process in our application works.
+The below shown figure  illustrates how a the shot simulation process in our application works.
 ![sequence diagram shot](image-processing/img/Shot)
 
 ## Object detection
@@ -126,11 +126,11 @@ It rearrange the geometry of RGB in an attempt to be more intuitive and perceptu
 by mapping the values into a cylinder loosely inspired by a traditional color wheel. The angle around the central vertical axis corresponds to "hue" and the distance from the axis corresponds to "saturation". 
 Perceived luminance is a notoriously difficult aspect of color to represent in a digital format (see disadvantages section), and this has given rise to two systems attempting to solve this issue:
 Both of these representations are used widely in computer graphics, but both are also criticized for not adequately separating color-making attributes, and for their lack of perceptual uniformity.
-Figure x show this hsv model
+Figure 7 show this hsv model
  
 ![HSV model](image-processing/img/hsv_models)
 
-In figure x and Figure x you can see the detection result of our HSV detection. In the first figure x you see the original image and the figure x then shows our detection result which detect blue forms.
+In figure 8 and Figure 9 you can see the detection result of our HSV detection. In the first figure 8 you see the original image and the figure 9 then shows our detection result which detect blue forms.
 
 ![HSV detection original image](image-processing/img/colored_squares)
 
@@ -139,7 +139,7 @@ In figure x and Figure x you can see the detection result of our HSV detection. 
 #### Contour detection with marker
 We also tried to detect the object via its contours.
 To realize this we went forth and first tried various geometry forms and tried to recognize them by there contours.
-Figure x you see the original image and the figure x then shows our detection result
+Figure 10 you see the original image and the figure 11 then shows our detection result
 
 ![Rectangle model](image-processing/img/colored_squares)
 
@@ -147,7 +147,7 @@ Figure x you see the original image and the figure x then shows our detection re
 
 In order to bring more security in the contour detection, we have decided to replace the simple contours by nested contours
 This enables us to detect the object more error-free and more stable then with simple contours.
-Figure x and figure x show the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
+Figure 12 and figure 13 show the detection with nested contours. Only the rectangles with triangles in the rectangles boundaries are detected.
 
 ![Rectangle model nested](image-processing/img/originalImageNestedDetection)
 
@@ -368,7 +368,7 @@ else
 ### Performance measurement object recognition
 During our project we had the problem that our webcam streaming was very slow. After hours of searching we found out that one reason for the problem was that our object detection recognition was to slow.
 So we started a performance measurement were we measure each method call. By this time measurement, we found out that the most time of our object recognition is needed from the opencv method like cvtColor, blur, findContours,etc.
-Figure x you can see the results of this measurement.
+Figure 14 you can see the results of this measurement.
 
 ![image processing time](image-processing/img/imageProcessingTime.jpg)
 
