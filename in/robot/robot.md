@@ -1,7 +1,7 @@
 
 # Roboter
 
-The meeple is a real robot which moves in the real world pitch. It is controlled by a person on the browser. In this
+The Turtle 2WD Mobile Platform is a robot and will be controlled (in our case) by a person via a browser. In this
 chapter this robot will be described in more detail.
 
 ![Robot](robot/img/robot.jpg)
@@ -17,14 +17,13 @@ The robot hardware is a composition of several parts:
 ![BeagleBoneBlack from above](robot/img/bbb.jpg)
   
 * [Chassis](http://www.robotshop.com/eu/en/dfrobot-2wd-mobile-platform-arduino.html): The chassis is a round robot which
-  is powered by two electric motor and two wheels, which provides to corner sharply.
+  has two electric motors and two wheels, which allows the robot to corner sharply.
   
 ![Chassis example picture bottom](robot/img/chassis)
 
 ![Chassis example picture top](robot/img/chassis_top)
 
-* Engergy supply: For the energy supply we use 5 batteries which provides directly the power for the motor
-  and supply the BeagleBone with 4 Batteries (for example 5V).
+* Energy supply: For the energy supply we use 5 batteries to power the motor and 4 Batteries to supply the BeagleBone (for example 5V).
 
 * [MotorControllerCape](https://github.com/Exadler/DualMotorControlCape): Expands the board with the ability to control
   motors over a simple library.
@@ -32,7 +31,7 @@ The robot hardware is a composition of several parts:
 ## Specification
 
 * BeagleBone Black is a low-cost, community-supported development platform for developers and hobbyists.
-    Spetzifikations:
+    Spezifications:
   - Am335x 1GHz ARM Cortex-A8 Prozessor
   - 12MB RAM
   - 4GB Onboard eMMC Flash Speicher
@@ -57,13 +56,13 @@ It can be ordered [here](http://www.dfrobot.com/index.php?route=product/product&
 
 ### BeagleBone Black
 
-We measured 300mA current at 5V energy consumption. During booting it went up to 500mA Peak. 
+We measured 300mA current at 5V energy consumption. During booting it went up to 500mA peak. 
 
 ### Motors
 
-The library DMCC provides a little tool to monitor the current consumption of the linked motors.
+The library DMCC provides a little tool to monitor the current consumption of the connected motors.
 
-This output was produced when the robot drives with 40% which the highest possible level without exceed the current
+This output was produced when the robot drives with 40% which is the highest possible level without exceeding the current
 limiter of the motor control cape.
 
 ```bash
@@ -104,14 +103,14 @@ Outlier: 87
 ```
 
 The motor is powered with four batteries (each 1900mAH), the entire energy of the batteries are 7600mAH. The calculation
-with the maximum current of bth motors (172mA) results in a maximum working time of about 40h.
+with the maximum current of both motors (172mA) results in a maximum working time of about 40h.
 
 ![calculation of working time](robot/img/working-time.gif)
 
 ## Software
 
-The software is a small pythons script that uses [ws4py](https://ws4py.readthedocs.org/en/latest/) as websocket library
-and [DMCC](https://github.com/Exadler/DMCC_Library) to interact with the MotorControllerCape.
+The software is a small python script that uses [ws4py](https://ws4py.readthedocs.org/en/latest/) as websocket library
+and [DMCC](https://github.com/Exadler/DMCC_Library) to interact with the motor controller cape.
 
 ### WS4PY
 
@@ -123,11 +122,11 @@ ws4py provides a high-level, yet simple, interface to provide your application w
 from ws4py.websocket import WebSocket
 ```
 
-The `WebSocket <ws4py.websocket.WebSocket>` class should be sub-classed by your application. To the very least we
+The `WebSocket <ws4py.websocket.WebSocket>` class should be sub-classed by your application. At the very least we
 suggest you override the `received_message(message) <ws4py.websocket.WebSocket.received_message>` method so
 that you can process incoming messages.
 
-For instance a straightforward echo application would look like this:
+For instance a straight forward echo application would look like this:
 
 ```python
 class EchoWebSocket(WebSocket):
@@ -144,7 +143,7 @@ Other useful methods to implement are:
 You may want to know if the connection is currently usable or `terminated <ws4py.websocket.WebSocket.terminated>`.
 
 At that stage, the subclass is still not connected to any data source. The way ws4py is designed, you don't
-necessarily a connected socket, in fact, you don't even need a socket at all.
+necessarily need a connected socket, in fact, you don't even need a socket at all.
 
 
 ```python
@@ -161,7 +160,7 @@ necessarily a connected socket, in fact, you don't even need a socket at all.
 ### DMCC
 
 The DMCC library enables python to interact with the motor controller cape. The cape generates a PWM proportional to
-a value between -10000 and 10000 which can be configured over a Python interface. The Cape can be stacked 4 times.
+a value between -10000 and 10000 which can be configured over a Python interface. The cape can be stacked 4 times.
 
 For the Swank-Rats robot we use one cape to control two motors, one for left and one for right.
 
@@ -182,8 +181,8 @@ DMCC.setMotor(0,1,0)
 
 ### State machine
 
-The state machine calculates the current speed of the motor left and right. Therefore the websocket library forward
-the commands press and release to the current state, which is initialized with the state Stop.
+The state machine calculates the current speed of the motor left and right. Therefore the websocket library forwards
+the keys pressed and released to the current state, which is initialized with the state stop.
 
 ![robot state machine](robot/img/state_machine.jpg)
 
