@@ -165,7 +165,7 @@ Because of the fact that the detection of the front of the robot is easier with 
 
 #### Conclusion Lessons learned
 After our tests we decided to use contour detection in combination with HSV for our robot detection. The reason for this is that the detection
-via contours and HSV works faster, more stable and produces less errors during the detection produces.
+via contours and HSV works faster, more stable and produces less errors during the detection process.
 We also decided not to use the moving detection because of the fact that the detection of the front of the robot is easier with the marker detection. Also the detection of the front after a robot turned in a static position.
 
 
@@ -324,28 +324,9 @@ if (pointsTriRect.size() == 2)
 
 #### Shoot route calculation
 
-To detect the shoot route we perform following steps.
-First we get the actual position of the shooting robot.
-The actual shooting position can be found in the representing robot objects.
+To detect the shoot route we perform following steps:
+First we get the actual position of the shooting robot. The actual position can be found in the representing robot objects. 
 This robot objects are automatically updated by our robot position update process which tracks the robots every second frame.
-```C++
-Robot* actuelRobot = nullptr;
-
-if (player.playerId == 0)
-{
-	actuelRobot = robotRect;
-}
-if (player.playerId == 1)
-{
-	actuelRobot = robotCircle;
-}
-
-
-if (!actuelRobot)
-{
-	return Shot(player, hitPlayer, Point2i(0, 0), Point2i(0, 0));
-}
-```
 
 Second we calculate the normalized shooting direction vector. The shooting direction was calculated in the robot detection process.
 We added a multiplier to the normalized vector to reduced the time for the calculation.
@@ -388,18 +369,6 @@ Point2i tmp = shot.GetCurrentShotPoint();
 After that we get the actual position of the shooting robot.
 The actual shooting position can be found in the representing robot objects.
 This robot objects are automatically updated by our robot position update process which tracks the robots every second frame.
-```C++
-Point* actuelPosition = nullptr;
-
-if (shot.hitPlayer.playerId == 0)
-{
-	actuelPosition = &robotRect->currentPosition;
-}
-if (shot.hitPlayer.playerId == 1)
-{
-	actuelPosition = &robotCircle->currentPosition;
-}
-```
 
 After that we define the hit area but only if it is possible that the shot hit the robot. If the distance of the shoot and the hit robot is to far we automatically return false.
 ```C++
@@ -442,11 +411,10 @@ On figure 15 you can see the results of this measurement.
 ![image processing time](image-processing/img/imageProcessingTime.jpg)
 
 According to this knowledge we have tried to improve the image processing. We enlarged the size of the objects for which we search. This brought us an improvement of about 20ms. 
-Also we decided to track the robots on every second frame. 
-Another change to before now is that we constantly monitor the robot. 
-For this purpose, the position of both robots on the game field is determined at the beginning of the game. 
-From this point, the robots are tracked, only in a ROI (100x100) based on the last position of the robot.
-This brought us a huge improvement so that we now need only 8ms per robot for the determination of the position and the shooting variables.
+Further we decided to track the robots continuously on every second frame. The reason why we skip one frame is again just a performance improvement, since the robots can not move that fast between 2 frames.
+So when the server starts an initial position detection of the robots on whole frame takes place. The needed time for this operation does not matter since it happens on start up.
+Once we have detected the position of the robots we store this information and use it to reduce the area where we have to search for the robots. We have introduced a 100x100px region of interest (ROI) around
+the last known position of a robot. This continuous tracking reduced the needed time for position detection to about 8ms per robot.
 
 ## WebSocket communication
 
@@ -489,7 +457,7 @@ At the beginning we were faced with high delay rates of over 70 ms between each 
 
 We figured out that there were several reasons for this. Two main problems were directly located in our implementation. We had some unneeded thread synchronization code and we also cloned each frame, which is not necessary since the used data structure ([OpenCV Mat](http://docs.opencv.org/modules/core/doc/basic_structures.html#mat)) provides reference counting. So a copy of a Mat object will not result in copying the whole image. Both instances will share the matrix, which represents the image. 
 
-Next we figured out that we send about 80 - 90 kb per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 to 18 kb by setting the quality to 30 % or the original image.
+Next we figured out that we send about 80 - 90 kB per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 to 18 kB by setting the quality to 30 % or the original image.
 
 With this few changes we could decrease the delay to about 20 ms, which is acceptable. 
 
@@ -527,7 +495,7 @@ Figure 18 shows the performance improvement.
 
 ### Traffic
 
-Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred. See figure 19 for one measurement result.
+Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 MB data were transferred. See figure 19 for one measurement result.
 
 ![Screenshot of one measurement result](image-processing/img/MJPEGstream_client)
 
