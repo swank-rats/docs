@@ -164,44 +164,58 @@ Because of the fact that the detection of the front of the robot is easier with 
 
 
 #### Conclusion Lessons learned
-After our tests we decided to use contour detection for our robot detection. The reason for this is that the detection
-via contours works faster, more stable and produces less errors during the detection produces than the RGB and HSV detection.
+After our tests we decided to use contour detection in combination with HSV for our robot detection. The reason for this is that the detection
+via contours and HSV works faster, more stable and produces less errors during the detection process.
 We also decided not to use the moving detection because of the fact that the detection of the front of the robot is easier with the marker detection. Also the detection of the front after a robot turned in a static position.
 
 
 
 ### Object detection realization
 #### Robot detection
-We decided to detect the robots via a contour detection method
+We decided to detect the robots via a contour detection method in combination with a HSV filtering
 
 In order to bring more security in the contour detection, we have decided to use nested contours instead of simple contours.
 This enables us to detect the object more error-free and more stable then with simple contours.
 
 We decided to used the following geometric forms:
-* Rectangle with isosceles triangle in it
-* Pentagon with isosceles triangle in it
+* White Rectangle with isosceles black triangle in it
+* Black Pentagon with isosceles white triangle in it
 
-But at the end of our project we found out that the pentagon is not the best opposite form for the rectangle. Instead of the pentagon we now use a circle with a isosceles triangle in it.
+But at the end of our project we found out that the pentagon is not the best opposite form for the rectangle. Instead of the pentagon we now use a black circle with a isosceles white triangle in it.
 
 ##### Detection processing
 In our detection process for a robot we first convert the original image of the video stream in to another color space via the following method
 ```C++
-cvtColor(srcdetect2, src_graydetect2, COLOR_BGR2GRAY);
+cvtColor(srcdetect2, imgHSV, COLOR_BGR2HSV);
 ```
-We convert the original image BGR space into a GRAY space and save this in a template image.
-After this converting process we use the following blur function to smooth the image.
+We convert the original image BGR space into a HSV space and save this in a template image.
+After this converting process we use the following range function to find all white objects on the image.
 ```C++
-blur(src_graydetect2, src_graydetect2, Size(3, 3));
+int iLowH = 0;
+int iHighH = 179;
+
+int iLowS = 0;
+int iHighS = 244;
+
+int iLowV = 0;
+int iHighV = 245;
+
+inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), 
+		Scalar(iHighH, iHighS, iHighV), imgThresholded);
 ```
-The main objective of smoothing is to reduce noise. Such noise reduction is a typical image pre-processing method which will improve the final result.
-Smoothing is done by sliding a window (kernel or filter) across the whole image and calculating a value based on the value of the kernel and the value of overlapping pixels of the original image for each pixel. This process is mathematically called as convolving an image with some kernel. 
-We used the homogeneous smoothing method. This is the most simplest method for smoothing an image. It takes simply the average of the neighbourhood of a pixel and assign that value to itself.
-You have to choose right size of the kernel. If it is too large, small features of the image may be disappeared and image will look blurred. If it is too small, you cannot eliminate noises of the image.
-We decided to use a 3x3 kernel because we thus achieve the best results. 
+After this function we only have a image which contains the white triangle of the circle marker and a white rectangle with a hole in shape of a triangle of the rectangle marker.
+In the next step we called the erode and dilate function on the image.
+```C++
+erode(imgThresholded, imgThresholded, 
+	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+dilate(imgThresholded, imgThresholded, 
+	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+```
+The main objective of erode and dilate is to reduce noise. Such noise reduction is a typical image pre-processing method which will improve the final result.
 
 The next step is that we make a canny edge detection to extract the edges
 ```C++
-Canny(src_graydetect2, canny_output, threshdetect2, threshdetect2 * 2, 3);
+Canny(imgThresholded, canny_output, threshdetect2, threshdetect2 * 2, 3);
 ```
 Canny algorithm aims to satisfy three main criteria:
 * Low error rate: Meaning a good detection of only existent edges.
@@ -214,12 +228,6 @@ The selected threshold value depends on the distance to the object and the envir
 After the canny detection we run a threshold function over the image. Therefore we use a binary threshold method:
 ```C++
 threshold(canny_output, canny_output, 128, 255, CV_THRESH_BINARY);
-```
-
-For the circle marker detection we must call the following method before we search after the contours because the standard findContours method can not find circles.
-```C++
-HoughCircles(src_graydetect2, circles, CV_HOUGH_GRADIENT, 1, 
-				src_graydetect2.rows / 8, 60, 30, 0, 0);
 ```
 
 After all this preparation steps we call the find contours method which returns all founded contours.
@@ -265,8 +273,10 @@ if (approx.size() == 3)
 ```
 
 
-After that we check via the pointPolygonTest method of OpenCV if the located triangles are in one of the located rectangles or circles.
-This method returns the position of the rectangles, circles and triangles.
+After that we check via the pointPolygonTest method of OpenCV if one of the located triangles is in the located rectangle.
+This method returns the position of the triangles.
+This must be done to evaluate which triangle depends to which marker. The triangle which is in the rectangle contains to the rectangle marker.
+
 With this information we can calculate the front and the throwing direction of the cheese spin.
 Below you can see the method which calculates this:
 ```C++
@@ -314,20 +324,17 @@ if (pointsTriRect.size() == 2)
 
 #### Shoot route calculation
 
-To detect the shoot route we perform following steps.
-First we detect the shooting robot via the robot detection process explained above:
-```C++
-Robot robotShootPlayer = DetectRobot(player, frame);
-```
+To detect the shoot route we perform following steps:
+First we get the actual position of the shooting robot. The actual position can be found in the representing robot objects. 
+This robot objects are automatically updated by our robot position update process which tracks the robots every second frame.
 
 Second we calculate the normalized shooting direction vector. The shooting direction was calculated in the robot detection process.
 We added a multiplier to the normalized vector to reduced the time for the calculation.
 ```C++
-double length = sqrt(pow(robotShootPlayer.shotDirection.x, 2)
-				+ pow(robotShootPlayer.shotDirection.y, 2));
+double length = sqrt(pow(actuelRobot->shotDirection.x, 2) + pow(actuelRobot->shotDirection.y, 2));
 int multiplier = 5;
-Point normDirection = Point(robotShootPlayer.shotDirection.x / length
-				* multiplier, robotShootPlayer.shotDirection.y / length * multiplier);
+Point normDirection = Point(actuelRobot->shotDirection.x / length * multiplier, actuelRobot->shotDirection.y / length * multiplier);
+
 ```
 
 After that we calculation the shoot route started from the cheese spin of the shooting robot to the end of the playing area (image borders).
@@ -348,26 +355,48 @@ while (!found)
 
 At least we return the shot route to the caller method
 ```C++
-return Shot(player, Point2i(robotShootPlayer.shotStartingPoint.x,
-			robotShootPlayer.shotStartingPoint.y), Point2i(endPoint.x, endPoint.y));
+return Shot(player, hitPlayer, Point2i(actuelRobot->shotStartingPoint.x, 
+			actuelRobot->shotStartingPoint.y), Point2i(endPoint.x, endPoint.y));
+
 ```
 
 #### Hit detection
-
-To detect a hit we perform the following steps.
-First we detect the hit robot via the robot detection process explained above;
-```C++
-Robot robotHitPlayer = DetectRobot(shot.hitPlayer, frame);
-```
-
-After this we fetch the actual position of the thrown cheese in the shot route.
+For the hit detection we perform the following steps.
+First we fetch the actual position of the thrown cheese in the shot route.
 ```C++
 Point2i tmp = shot.GetCurrentShotPoint();
 ```
-With this point we determine if the point is in the contours of the robot via the pointPolygonTest method (the marker have the same size as the robots).
+After that we get the actual position of the shooting robot.
+The actual shooting position can be found in the representing robot objects.
+This robot objects are automatically updated by our robot position update process which tracks the robots every second frame.
+
+After that we define the hit area but only if it is possible that the shot hit the robot. If the distance of the shoot and the hit robot is to far we automatically return false.
+```C++
+int diffx = abs(actuelPosition->x - currentShotingPoint.x);
+int diffy = abs(actuelPosition->y - currentShotingPoint.y);
+
+if (diffx > 100 || diffy > 100)
+{
+	return false;
+}
+
+vector<Point> hitArea;
+
+Point x(actuelPosition->x - 50, actuelPosition->y - 50);
+Point y(actuelPosition->x + 50, actuelPosition->y + 50);
+Point z(actuelPosition->x - 50, actuelPosition->y + 50);
+Point v(actuelPosition->x - 50, actuelPosition->y + 50);
+
+
+hitArea.push_back(x);
+hitArea.push_back(y);
+hitArea.push_back(z);
+hitArea.push_back(v);
+```
+With the shooting point and the hit area we determine if the point is in the hit area of the robot via the pointPolygonTest method.
 The result will be returned to the caller method.
 ```C++
-if (pointPolygonTest(Mat(robotHitPlayer.robotForm), currentShotingPoint, true) > 0)
+if (pointPolygonTest(Mat(hitArea), currentShotingPoint, true) > 0)
 	return true;
 else
 	return false;
@@ -381,8 +410,11 @@ On figure 15 you can see the results of this measurement.
 
 ![image processing time](image-processing/img/imageProcessingTime.jpg)
 
-According to this knowledge we have tried to improve the image processing. We enlarged the size of the objects for which we search. This brought us an improvement of about 20ms. However, to improve more we would need to improve the OpenCV methods.
-
+According to this knowledge we have tried to improve the image processing. We enlarged the size of the objects for which we search. This brought us an improvement of about 20ms. 
+Further we decided to track the robots continuously on every second frame. The reason why we skip one frame is again just a performance improvement, since the robots can not move that fast between 2 frames.
+So when the server starts an initial position detection of the robots on whole frame takes place. The needed time for this operation does not matter since it happens on start up.
+Once we have detected the position of the robots we store this information and use it to reduce the area where we have to search for the robots. We have introduced a 100x100px region of interest (ROI) around
+the last known position of a robot. This continuous tracking reduced the needed time for position detection to about 8ms per robot.
 
 ## WebSocket communication
 
@@ -425,7 +457,7 @@ At the beginning we were faced with high delay rates of over 70 ms between each 
 
 We figured out that there were several reasons for this. Two main problems were directly located in our implementation. We had some unneeded thread synchronization code and we also cloned each frame, which is not necessary since the used data structure ([OpenCV Mat](http://docs.opencv.org/modules/core/doc/basic_structures.html#mat)) provides reference counting. So a copy of a Mat object will not result in copying the whole image. Both instances will share the matrix, which represents the image. 
 
-Next we figured out that we send about 80 - 90 kb per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 to 18 kb by setting the quality to 30 % or the original image.
+Next we figured out that we send about 80 - 90 kB per frame. We solved the problem by decreasing the quality of the image we send. OpenCV provides the possibility to change the quality very easily during converting a Mat object into a vector of bytes. So we could decrease the size per frame to about 10 to 18 kB by setting the quality to 30 % or the original image.
 
 With this few changes we could decrease the delay to about 20 ms, which is acceptable. 
 
@@ -463,7 +495,7 @@ Figure 18 shows the performance improvement.
 
 ### Traffic
 
-Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 mb data were transferred. See figure 19 for one measurement result.
+Out measurements showed that in 60 seconds play-time between 900 to 1000 frames with a total amount of 13 to 18 MB data were transferred. See figure 19 for one measurement result.
 
 ![Screenshot of one measurement result](image-processing/img/MJPEGstream_client)
 
