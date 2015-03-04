@@ -412,7 +412,7 @@ On figure 15 you can see the results of this measurement.
 
 According to this knowledge we have tried to improve the image processing. We enlarged the size of the objects for which we search. This brought us an improvement of about 20ms. 
 Further we decided to track the robots continuously on every second frame. The reason why we skip one frame is again just a performance improvement, since the robots can not move that fast between 2 frames.
-So when the server starts an initial position detection of the robots on whole frame takes place. The needed time for this operation does not matter since it happens on start up.
+So when the server starts an initial position detection of the robots on the whole frame takes place. The needed time for this operation does not matter since it happens on start up.
 Once we have detected the position of the robots we store this information and use it to reduce the area where we have to search for the robots. We have introduced a 100x100px region of interest (ROI) around
 the last known position of a robot. This continuous tracking reduced the needed time for position detection to about 8ms per robot.
 
